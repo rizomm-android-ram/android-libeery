@@ -1,6 +1,7 @@
 package com.rizomm.ram.libeery;
 
 import android.content.SharedPreferences;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +9,8 @@ import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rizomm.ram.libeery.adapter.SlidingTabsPagerAdapter;
+import com.rizomm.ram.libeery.commonViews.SlidingTabLayout;
 import com.rizomm.ram.libeery.database.manager.BeerDBManager;
 import com.rizomm.ram.libeery.database.manager.CategoryDBManager;
 import com.rizomm.ram.libeery.database.manager.GlassDBManager;
@@ -44,11 +47,25 @@ public class MainActivity extends ActionBarActivity {
     private boolean isStyleFirstLaunch = true;
     private boolean isBeerFirstLaunch = true;
 
+    private SlidingTabLayout slidingTabLayout;
+    private ViewPager viewPager;
+    private SlidingTabsPagerAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Récupération du viewPager défini dans la vue :
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+
+        // Récupération du slidingtabLayout défini dans la vue :
+        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+
+        adapter = new SlidingTabsPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        slidingTabLayout.setViewPager(viewPager);
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
