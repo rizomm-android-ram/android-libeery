@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -46,22 +48,18 @@ public class MainActivity extends ActionBarActivity {
     private boolean isCategoryFirstLaunch = true;
     private boolean isStyleFirstLaunch = true;
     private boolean isBeerFirstLaunch = true;
-
-    private SlidingTabLayout slidingTabLayout;
-    private ViewPager viewPager;
     private SlidingTabsPagerAdapter adapter;
 
+    @InjectView(R.id.sliding_tabs) SlidingTabLayout slidingTabLayout;
+    @InjectView(R.id.viewPager) ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Récupération du viewPager défini dans la vue :
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-
-        // Récupération du slidingtabLayout défini dans la vue :
-        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        // Récupération des éléments graphiques via ButterKnife :
+        ButterKnife.inject(this);
 
         adapter = new SlidingTabsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
