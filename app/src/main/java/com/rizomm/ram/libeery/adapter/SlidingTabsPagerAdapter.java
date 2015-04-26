@@ -48,6 +48,6 @@ public class SlidingTabsPagerAdapter extends FragmentPagerAdapter {
         }
 
         // Sinon, alors on demande le 2nd slide donc on affiche la vue des contacts :
-        return "Perso";
+        return "Favoris";
     }
 }

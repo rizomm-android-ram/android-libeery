@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import android.os.Handler;
 
-import com.rizomm.ram.libeery.MainActivity;
+import com.rizomm.ram.libeery.activity.MainActivity;
 import com.rizomm.ram.libeery.R;
 
 /**
