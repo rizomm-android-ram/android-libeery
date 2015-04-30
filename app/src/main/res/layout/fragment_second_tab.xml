@@ -3,8 +3,10 @@
     android:layout_height="match_parent"
     tools:context="com.rizomm.ram.libeery.fragment.SecondTabFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="Second tab fragment" />
+    <ListView
+        android:id="@+id/listFavoriteBeers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
 
 </FrameLayout>
