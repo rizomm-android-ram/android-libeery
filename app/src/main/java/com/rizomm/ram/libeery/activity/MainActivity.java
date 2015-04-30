@@ -1,9 +1,8 @@
 package com.rizomm.ram.libeery.activity;
 
-import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,10 +20,6 @@ import com.rizomm.ram.libeery.model.Category;
 import com.rizomm.ram.libeery.model.Glass;
 import com.rizomm.ram.libeery.model.Style;
 import com.rizomm.ram.libeery.service.BreweryDBService;
-import com.rizomm.ram.libeery.utils.Constant;
-import com.rizomm.ram.libeery.wrapper.CategoriesWrapper;
-import com.rizomm.ram.libeery.wrapper.GlassewareWrapper;
-import com.rizomm.ram.libeery.wrapper.StylesWrapper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,10 +27,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import retrofit.Callback;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
 

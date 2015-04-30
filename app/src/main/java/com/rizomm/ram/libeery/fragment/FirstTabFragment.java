@@ -9,13 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.rizomm.ram.libeery.activity.MainActivity;
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.adapter.ListAllBeersAdapter;
 import com.rizomm.ram.libeery.database.manager.BeerDBManager;
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.Style;
-import com.rizomm.ram.libeery.wrapper.BeerWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

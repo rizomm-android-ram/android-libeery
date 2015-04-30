@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.rizomm.ram.libeery.activity.MainActivity;
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.model.Beer;
 

@@ -3,8 +3,6 @@ package com.rizomm.ram.libeery.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.view.View;
 
 import com.rizomm.ram.libeery.fragment.FirstTabFragment;
 import com.rizomm.ram.libeery.fragment.SecondTabFragment;

@@ -2,8 +2,6 @@ package com.rizomm.ram.libeery.model;
 
 import java.util.Date;
 
-import lombok.Data;
-
 /**
  * Created by Robin on 03/04/2015.
  */
