@@ -28,4 +28,4 @@ proguard/
 
 .DS_Store
 /.idea
-/*.iml
+/*.imlapp/src/main/java/com/rizomm/ram/libeery/utils/Constant.java
