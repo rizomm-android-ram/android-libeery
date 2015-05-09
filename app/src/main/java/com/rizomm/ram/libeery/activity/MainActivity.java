@@ -1,11 +1,14 @@
 package com.rizomm.ram.libeery.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rizomm.ram.libeery.R;
@@ -20,6 +23,7 @@ import com.rizomm.ram.libeery.model.Category;
 import com.rizomm.ram.libeery.model.Glass;
 import com.rizomm.ram.libeery.model.Style;
 import com.rizomm.ram.libeery.service.BreweryDBService;
+import com.rizomm.ram.libeery.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,6 +31,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -45,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
 
     @InjectView(R.id.sliding_tabs) SlidingTabLayout slidingTabLayout;
     @InjectView(R.id.viewPager) ViewPager viewPager;
+    @InjectView(R.id.add_button) FloatingActionButton addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +220,6 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -231,6 +236,28 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.add_button)
+    /**
+     * Clic sur le bouton permettant d'ajouter une bière.
+     */
+    public void onAddButtonClick(){
+        Intent addBeerIntent = new Intent(this, AddBeerActivity.class);
+        startActivityForResult(addBeerIntent, Constant.ADD_BEER_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == Constant.ADD_BEER_REQUEST){
+            if(resultCode == Constant.RESULT_CODE_OK){
+                Toast.makeText(this, R.string.addedBeerMessageOK, Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(this, R.string.addedBeerMessageKO, Toast.LENGTH_LONG).show();
+            }
+        }else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void buildGlassware(ArrayList<Glass> glasseware) {
