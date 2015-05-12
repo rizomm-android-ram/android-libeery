@@ -10,6 +10,12 @@ public class Constant {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final String PREFS_NAME = "LibeeryBDD";
 
+    public static final int ADD_BEER_REQUEST = 1234;
+    public static final int TAKE_PICTURE_REQUEST = 5678;
+
+    public static final int RESULT_CODE_OK = 1;
+    public static final int RESULT_CODE_KO = 0;
+
     public Constant() {
     }
 }
