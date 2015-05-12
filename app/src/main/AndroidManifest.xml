@@ -4,6 +4,14 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +34,10 @@
         <activity
             android:name=".activity.AddBeerActivity"
             android:label="@string/title_activity_add_beer" >
+        </activity>
+        <activity
+            android:name=".activity.RandomBeerActivity"
+            android:label="@string/title_activity_random_beer" >
         </activity>
     </application>
 

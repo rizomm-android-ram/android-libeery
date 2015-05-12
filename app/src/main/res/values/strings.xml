@@ -3,11 +3,9 @@
 
     <string name="app_name">Libeery</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_beer">AddBeerActivity</string>
-
     <string name="addedBeerMessageOK">Bière ajoutée !</string>
     <string name="addedBeerMessageKO">Erreur. Bière non ajoutée.</string>
     <string name="labelBeerName">Nom</string>
@@ -15,8 +13,13 @@
     <string name="labelBeerAlcoholLevel">Degré</string>
     <string name="labelBeerCategory">Categorie</string>
     <string name="labelButtonBeerValidate">Valider</string>
+    <string name="errorNoCameraAvailable">Impossible d\'utiliser la caméra de cet appareil.</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_random_beer">Random beer</string>
 
     <color name="blue_normal">#2ECCFA</color>
     <color name="blue_pressed">#04B4AE</color>
+
+    <string name="title_activity_random_beer">RandomBeerActivity</string>
 
 </resources>

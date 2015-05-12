@@ -32,6 +32,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
@@ -231,12 +232,16 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_random_beer) {
+            // On démarre l'activité permettant d'afficher une bière aléatoire :
+            Intent randomBeerIntent = new Intent(this, RandomBeerActivity.class);
+            startActivity(randomBeerIntent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @OnClick(R.id.add_button)
     /**
@@ -259,6 +264,7 @@ public class MainActivity extends ActionBarActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 
     private void buildGlassware(ArrayList<Glass> glasseware) {
         glassDBManager = new GlassDBManager(this);
