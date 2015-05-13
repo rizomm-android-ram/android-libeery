@@ -3,23 +3,14 @@ package com.rizomm.ram.libeery.wrapper;
 import com.google.gson.annotations.SerializedName;
 import com.rizomm.ram.libeery.model.Beer;
 
+import java.util.List;
+
 /**
  * Created by Robin on 09/04/2015.
  */
 public class BeerWrapper {
 
-    private String message;
-    @SerializedName("data")
     private Beer beer;
-    private String status;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public Beer getBeer() {
         return beer;
@@ -29,11 +20,4 @@ public class BeerWrapper {
         this.beer = beer;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

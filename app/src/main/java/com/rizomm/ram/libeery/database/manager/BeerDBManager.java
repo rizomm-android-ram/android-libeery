@@ -81,7 +81,7 @@ public class BeerDBManager {
     }
 
     public ArrayList<Beer> getBeers() {
-        ArrayList<Beer> persons = new ArrayList<>();
+        ArrayList<Beer> persons = new ArrayList();
         String[] columns = new String[] {
                 DatabaseHelper._ID,
                 DatabaseHelper.BEER_ID,
