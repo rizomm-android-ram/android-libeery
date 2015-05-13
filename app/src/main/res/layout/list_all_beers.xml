@@ -7,11 +7,13 @@
     <TextView
         android:id="@+id/listAllBeers_BeerName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/listAllBeers_BeerStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textStyle="italic"/>
 
 </LinearLayout>

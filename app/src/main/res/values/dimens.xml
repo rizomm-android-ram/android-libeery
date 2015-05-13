@@ -4,4 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="add_beer_picture_height">200sp</dimen>
     <dimen name="add_beer_picture_width">200sp</dimen>
+    <dimen name="beer_icon_height">50sp</dimen>
+    <dimen name="beer_icon_width">50sp</dimen>
+    <dimen name="beer_icon_margin">12dp</dimen>
 </resources>

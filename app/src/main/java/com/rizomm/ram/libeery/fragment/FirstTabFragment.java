@@ -12,6 +12,8 @@ import android.widget.ListView;
 
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.adapter.ListAllBeersAdapter;
+import com.rizomm.ram.libeery.dao.BeerDAOFactory;
+import com.rizomm.ram.libeery.dao.IBeersDAO;
 import com.rizomm.ram.libeery.database.manager.BeerDBManager;
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.Style;
@@ -29,6 +31,7 @@ public class FirstTabFragment extends Fragment {
 
     private ListAllBeersAdapter listAllBeersAdapter;
     private List<Beer> allBeersList ;
+    private BeerDAOFactory daoFactory = new BeerDAOFactory();
 
     @InjectView(R.id.listAllBeers) AbsListView listAllBeers;
 
@@ -58,25 +61,7 @@ public class FirstTabFragment extends Fragment {
      * Récupère la liste des bières.
      */
     private void getAllBeerList(){
-        allBeersList = new ArrayList<>();
-        Beer b1 = new Beer();
-        b1.setName("Corona");
-        Beer b2 = new Beer();
-        b2.setName("Leffe");
-        Beer b3 = new Beer();
-        b3.setName("Trolls");
-        Style s1 = new Style();
-        s1.setName("A bulle");
-        b1.setStyle(s1);
-        b2.setStyle(s1);
-        b3.setStyle(s1);
-        allBeersList.add(b1);
-        allBeersList.add(b2);
-        allBeersList.add(b3);
-        BeerDBManager bdm = new BeerDBManager(getActivity().getApplicationContext());
-        bdm.open();
-        List<Beer> list = bdm.getBeers();
-        bdm.close();
-        allBeersList.addAll(list);
+        IBeersDAO dao = daoFactory.getBeerDao();
+        allBeersList = dao.getAllBeers();
     }
 }
