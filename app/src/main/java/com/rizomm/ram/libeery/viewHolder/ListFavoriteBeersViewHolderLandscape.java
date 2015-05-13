@@ -15,7 +15,7 @@ import butterknife.InjectView;
  * Created by Amaury on 30/04/2015.
  * ViewHolder contenant le style d'une ligne pour la liste des bières favorites.
  */
-public class ListFavoriteBeersViewHolder implements ViewHolder {
+public class ListFavoriteBeersViewHolderLandscape implements ViewHolder {
 
     private Context context;
     private View view;
@@ -23,13 +23,13 @@ public class ListFavoriteBeersViewHolder implements ViewHolder {
     @InjectView(R.id.listFavoriteBeers_BeerName) TextView beerName;
     @InjectView(R.id.listFavoriteBeers_BeerStyle) TextView beerStyle;
 
-    public ListFavoriteBeersViewHolder(Context context) {
+    public ListFavoriteBeersViewHolderLandscape(Context context) {
         this.context = context;
         createView();
     }
 
     private void createView() {
-        view = LayoutInflater.from(context).inflate(R.layout.list_favorite_beers, null);
+        view = LayoutInflater.from(context).inflate(R.layout.list_favorite_beers_landscape, null);
         ButterKnife.inject(this, view);
     }
 

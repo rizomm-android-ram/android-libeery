@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.rizomm.ram.libeery.R;
@@ -29,8 +30,7 @@ public class SecondTabFragment extends Fragment {
     private ListFavoriteBeersAdapter listFavoriteBeersAdapter;
     private List<Beer> listFavoriteBeers;
 
-    @InjectView(R.id.listFavoriteBeers)
-    ListView listViewFavoriteBeers;
+    @InjectView(R.id.listFavoriteBeers) AbsListView listViewFavoriteBeers;
 
     @Nullable
     @Override
@@ -55,15 +55,19 @@ public class SecondTabFragment extends Fragment {
      private void getFavoriteBeerList(){
         listFavoriteBeers = new ArrayList<>();
         Beer b1 = new Beer();
-        b1.setName("Corona");
+        b1.setName("Karmelit");
         Beer b2 = new Beer();
-        b2.setName("Leffe");
+        b2.setName("Rince");
+         Beer b3 = new Beer();
+         b3.setName("Corona");
         Style s1 = new Style();
-        s1.setName("A bulle");
+        s1.setName("A bulles");
         b1.setStyle(s1);
         b2.setStyle(s1);
+        b3.setStyle(s1);
         listFavoriteBeers.add(b1);
         listFavoriteBeers.add(b2);
+        listFavoriteBeers.add(b3);
         BeerDBManager bdm = new BeerDBManager(getActivity().getApplicationContext());
         bdm.open();
         List<Beer> list = bdm.getBeers();
