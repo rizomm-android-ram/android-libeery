@@ -3,6 +3,7 @@ package com.rizomm.ram.libeery.viewHolder;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rizomm.ram.libeery.R;
@@ -21,7 +22,7 @@ public class ListFavoriteBeersViewHolderLandscape implements ViewHolder {
     private View view;
 
     @InjectView(R.id.listFavoriteBeers_BeerName) TextView beerName;
-    @InjectView(R.id.listFavoriteBeers_BeerStyle) TextView beerStyle;
+    @InjectView(R.id.listFavoriteBeers_BeerIcon) ImageView beerIcon;
 
     public ListFavoriteBeersViewHolderLandscape(Context context) {
         this.context = context;
@@ -34,8 +35,11 @@ public class ListFavoriteBeersViewHolderLandscape implements ViewHolder {
     }
 
     public void updateView(Beer beer){
-        beerName.setText(beer.getName());
-        beerStyle.setText(beer.getStyle().getName());
+        if(beer.getName() != null && !beer.getName().isEmpty()){
+            beerName.setText(beer.getName());
+        }else{
+            beerName.setText("NA");
+        }
     }
 
     public View getView(){

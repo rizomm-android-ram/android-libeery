@@ -12,6 +12,8 @@ import android.widget.ListView;
 
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.adapter.ListFavoriteBeersAdapter;
+import com.rizomm.ram.libeery.dao.BeerDAOFactory;
+import com.rizomm.ram.libeery.dao.IBeersDAO;
 import com.rizomm.ram.libeery.database.manager.BeerDBManager;
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.Style;
@@ -29,6 +31,7 @@ public class SecondTabFragment extends Fragment {
 
     private ListFavoriteBeersAdapter listFavoriteBeersAdapter;
     private List<Beer> listFavoriteBeers;
+    private BeerDAOFactory daoFactory = new BeerDAOFactory();
 
     @InjectView(R.id.listFavoriteBeers) AbsListView listViewFavoriteBeers;
 
@@ -53,26 +56,8 @@ public class SecondTabFragment extends Fragment {
      * Récupère la liste des bières.
      */
      private void getFavoriteBeerList(){
-        listFavoriteBeers = new ArrayList<>();
-        Beer b1 = new Beer();
-        b1.setName("Karmelit");
-        Beer b2 = new Beer();
-        b2.setName("Rince");
-         Beer b3 = new Beer();
-         b3.setName("Corona");
-        Style s1 = new Style();
-        s1.setName("A bulles");
-        b1.setStyle(s1);
-        b2.setStyle(s1);
-        b3.setStyle(s1);
-        listFavoriteBeers.add(b1);
-        listFavoriteBeers.add(b2);
-        listFavoriteBeers.add(b3);
-        BeerDBManager bdm = new BeerDBManager(getActivity().getApplicationContext());
-        bdm.open();
-        List<Beer> list = bdm.getBeers();
-        bdm.close();
-        listFavoriteBeers.addAll(list);
+         IBeersDAO dao = daoFactory.getBeerDao();
+         listFavoriteBeers = dao.getFavoriteBeers();
     }
 
 }
