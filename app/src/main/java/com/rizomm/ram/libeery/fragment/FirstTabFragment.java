@@ -68,10 +68,5 @@ public class FirstTabFragment extends Fragment {
         b2.setStyle(s1);
         allBeersList.add(b1);
         allBeersList.add(b2);
-        BeerDBManager bdm = new BeerDBManager(getActivity().getApplicationContext());
-        bdm.open();
-        List<Beer> list = bdm.getBeers();
-        bdm.close();
-        allBeersList.addAll(list);
     }
 }

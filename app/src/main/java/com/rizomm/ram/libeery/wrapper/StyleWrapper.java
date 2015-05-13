@@ -9,18 +9,7 @@ import com.rizomm.ram.libeery.model.Style;
  */
 public class StyleWrapper {
 
-    private String message;
-    @SerializedName("data")
     private Style style;
-    private String status;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public Style getStyle() {
         return style;
@@ -30,11 +19,4 @@ public class StyleWrapper {
         this.style = style;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

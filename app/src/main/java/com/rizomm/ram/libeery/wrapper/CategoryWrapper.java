@@ -9,18 +9,7 @@ import com.rizomm.ram.libeery.model.Category;
  */
 public class CategoryWrapper {
 
-    private String message;
-    @SerializedName("data")
     private Category category;
-    private String status;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public Category getCategory() {
         return category;
@@ -30,11 +19,4 @@ public class CategoryWrapper {
         this.category = category;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

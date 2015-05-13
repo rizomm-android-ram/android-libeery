@@ -64,11 +64,6 @@ public class SecondTabFragment extends Fragment {
         b2.setStyle(s1);
         listFavoriteBeers.add(b1);
         listFavoriteBeers.add(b2);
-        BeerDBManager bdm = new BeerDBManager(getActivity().getApplicationContext());
-        bdm.open();
-        List<Beer> list = bdm.getBeers();
-        bdm.close();
-        listFavoriteBeers.addAll(list);
     }
 
 }
