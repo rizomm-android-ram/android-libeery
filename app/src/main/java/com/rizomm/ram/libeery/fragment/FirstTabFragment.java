@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.rizomm.ram.libeery.R;
@@ -29,7 +30,7 @@ public class FirstTabFragment extends Fragment {
     private ListAllBeersAdapter listAllBeersAdapter;
     private List<Beer> allBeersList ;
 
-    @InjectView(R.id.listAllBeers) ListView listAllBeers;
+    @InjectView(R.id.listAllBeers) AbsListView listAllBeers;
 
     @Nullable
     @Override
@@ -62,10 +63,13 @@ public class FirstTabFragment extends Fragment {
         b1.setName("Corona");
         Beer b2 = new Beer();
         b2.setName("Leffe");
+        Beer b3 = new Beer();
+        b3.setName("Trolls");
         Style s1 = new Style();
         s1.setName("A bulle");
         b1.setStyle(s1);
         b2.setStyle(s1);
+        b3.setStyle(s1);
         allBeersList.add(b1);
         allBeersList.add(b2);
     }

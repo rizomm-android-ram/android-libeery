@@ -15,7 +15,7 @@ import butterknife.InjectView;
  * Created by Amaury on 26/04/2015.
  * ViewHolder contenant le style d'une ligne pour la liste des toutes les bières.
  */
-public class ListAllBeersViewHolder {
+public class ListAllBeersViewHolder implements ViewHolder {
 
     private Context context;
     private View view;
