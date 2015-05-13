@@ -1,0 +1,37 @@
+package com.rizomm.ram.libeery.dao;
+
+import com.rizomm.ram.libeery.model.Beer;
+
+import java.util.List;
+
+/**
+ * Created by Amaury on 13/05/2015.
+ */
+public interface IBeersDAO {
+
+    /**
+     * récupère la liste de toutes les bières.
+     * @return
+     */
+    public List<Beer> getAllBeers();
+
+    /**
+     * Récupère la liste des bières favorites.
+     * @return
+     */
+    public List<Beer> getFavoriteBeers();
+
+    /**
+     * Récupère une bière par son nom
+     * @param name
+     * @return
+     */
+    public Beer getBeerByName(String name);
+
+    /**
+     * Récupère une bière aléatoire
+     * @return
+     */
+    public Beer getRandomBeer();
+
+}
