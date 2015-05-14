@@ -7,4 +7,5 @@
     <dimen name="beer_icon_height">50sp</dimen>
     <dimen name="beer_icon_width">50sp</dimen>
     <dimen name="beer_icon_margin">12dp</dimen>
+    <dimen name="random_beer_text_size">24dp</dimen>
 </resources>
