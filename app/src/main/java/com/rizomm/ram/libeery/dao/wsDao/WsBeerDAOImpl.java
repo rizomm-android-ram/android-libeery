@@ -1,21 +1,55 @@
 package com.rizomm.ram.libeery.dao.wsDao;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rizomm.ram.libeery.dao.IBeersDAO;
-import com.rizomm.ram.libeery.database.manager.BeerDBManager;
+import com.rizomm.ram.libeery.event.DAOResponseEvent;
+import com.rizomm.ram.libeery.event.IDaoResponseListener;
+import com.rizomm.ram.libeery.event.RandomBeerResponseListener;
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.Category;
 import com.rizomm.ram.libeery.model.Glass;
 import com.rizomm.ram.libeery.model.Labels;
 import com.rizomm.ram.libeery.model.Style;
+import com.rizomm.ram.libeery.service.LibeeryRestService;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.converter.GsonConverter;
 
 /**
  * Created by Amaury on 13/05/2015.
  */
 public class WsBeerDAOImpl implements IBeersDAO {
+
+    private Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
+    private RestAdapter restAdapter = new RestAdapter.Builder()
+            .setEndpoint("http://robin.grabarski.fr/libeery/web/app_dev.php/api/")
+            .setConverter(new GsonConverter(gson))
+            .build();
+
+    private LibeeryRestService service = restAdapter.create(LibeeryRestService.class);
+
+    private List<Beer> listBeersByName = null;
+    private Beer randomBeer = null;
+
+    private List<IDaoResponseListener> daoResponseEventListenersList = new ArrayList<>();
+
+    @Override
+    public synchronized void addDaoResponseEventListener(IDaoResponseListener listener){
+        if(!daoResponseEventListenersList.contains(listener)){
+            daoResponseEventListenersList.add(listener);
+        }
+    }
+
     @Override
     public List<Beer> getAllBeers() {
         List<Beer> allBeersList = new ArrayList<>();
@@ -123,48 +157,89 @@ public class WsBeerDAOImpl implements IBeersDAO {
     }
 
     @Override
-    public Beer getBeerByName(String name) {
-        Glass g = new Glass();
-        g.setName("Verre à bière");
-        Category c = new Category();
-        c.setName("Categorie 1");
-        Style s = new Style();
-        s.setCategory(c);
-        s.setName("Style 1");
-        Labels l = new Labels();
-        l.setIcon("http://www.saveur-biere-entreprise.com/fournisseur-produit-4365-p-biere-verre-perdu-mort-subite-framboise.php");
-        Beer b = new Beer().builder().abv((new Float(12.5))).name("Mort subite").glass(g).style(s).build();
-        return b;
+    public List<Beer> getBeersByName(String name) {
+//        Glass g = new Glass();
+//        g.setName("Verre à bière");
+//        Category c = new Category();
+//        c.setName("Categorie 1");
+//        Style s = new Style();
+//        s.setCategory(c);
+//        s.setName("Style 1");
+//        Labels l = new Labels();
+//        l.setIcon("http://www.saveur-biere-entreprise.com/fournisseur-produit-4365-p-biere-verre-perdu-mort-subite-framboise.php");
+//        Beer b = new Beer().builder().abv((new Float(12.5))).name("Mort subite").glass(g).style(s).build();
+//        return b;
+
+        service.getBeersByName(name, new Callback<List<Beer>>() {
+            @Override
+            public void success(List<Beer> beers, Response response) {
+                listBeersByName = beers;
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                listBeersByName = null;
+                System.out.println(error.toString());
+            }
+        });
+        return listBeersByName;
     }
 
     @Override
     public Beer getRandomBeer() {
-        int i = (int)(Math.random() * 1);
+//        int i = (int)(Math.random() * 1);
+//
+//        if(i ==0){
+//            Glass g = new Glass();
+//            g.setName("Verre à bière");
+//            Category c = new Category();
+//            c.setName("Categorie 1");
+//            Style s = new Style();
+//            s.setCategory(c);
+//            s.setName("Style 1");
+//            Labels l = new Labels();
+//            l.setIcon("https://nickshell1983.files.wordpress.com/2010/03/killians-irish-red.jpg");
+//            Beer b = new Beer().builder().abv((new Float(12.5))).name("Killians").glass(g).style(s).labels(l).build();
+//            return b;
+//        }else{
+//            Glass g = new Glass();
+//            g.setName("Verre à binouse");
+//            Category c = new Category();
+//            c.setName("Categorie 2");
+//            Style s = new Style();
+//            s.setCategory(c);
+//            s.setName("Style 2");
+//            Labels l = new Labels();
+//            l.setIcon("http://www.guidedesbieres.com/photos/3524-bouteille-de-pelforth-brune-et-son-verre.jpg");
+//            Beer b = new Beer().builder().abv((new Float(6.7))).name("Pelforth").glass(g).style(s).labels(l).build();
+//            return b;
+//        }
+        service.getRandomBeer(new Callback<Beer>() {
+            @Override
+            public void success(Beer beer, Response response) {
+                randomBeer = beer;
+                fireRandomBeerResponse(randomBeer);
+            }
 
-        if(i ==0){
-            Glass g = new Glass();
-            g.setName("Verre à bière");
-            Category c = new Category();
-            c.setName("Categorie 1");
-            Style s = new Style();
-            s.setCategory(c);
-            s.setName("Style 1");
-            Labels l = new Labels();
-            l.setIcon("https://nickshell1983.files.wordpress.com/2010/03/killians-irish-red.jpg");
-            Beer b = new Beer().builder().abv((new Float(12.5))).name("Killians").glass(g).style(s).labels(l).build();
-            return b;
-        }else{
-            Glass g = new Glass();
-            g.setName("Verre à binouse");
-            Category c = new Category();
-            c.setName("Categorie 2");
-            Style s = new Style();
-            s.setCategory(c);
-            s.setName("Style 2");
-            Labels l = new Labels();
-            l.setIcon("http://www.guidedesbieres.com/photos/3524-bouteille-de-pelforth-brune-et-son-verre.jpg");
-            Beer b = new Beer().builder().abv((new Float(6.7))).name("Pelforth").glass(g).style(s).labels(l).build();
-            return b;
+            @Override
+            public void failure(RetrofitError error) {
+                randomBeer = null;
+                System.out.println(error.toString());
+            }
+        });
+
+        return randomBeer;
+    }
+
+    /**
+     * Propage l'événement de réponse d'une bière aléatoire.
+     * @param b La bière trouvée.
+     */
+    private synchronized void fireRandomBeerResponse(Beer b) {
+        DAOResponseEvent event = new DAOResponseEvent( this, b);
+        Iterator listeners = daoResponseEventListenersList.iterator();
+        while( listeners.hasNext() ) {
+            ( (RandomBeerResponseListener) listeners.next() ).randomBeerResponse( event );
         }
     }
 }
