@@ -149,7 +149,7 @@ public class RandomBeerActivity extends ActionBarActivity implements RandomBeerR
             }
 
             // Affichage de la photo en utilisant Picasso :
-            if(randomBeer.getStyle() != null && randomBeer.getLabels() != null && !randomBeer.getLabels().getMedium().isEmpty()){
+            if(randomBeer.getLabels() != null && randomBeer.getLabels().getMedium() != null && !randomBeer.getLabels().getMedium().isEmpty()){
                 Picasso.with(this)
                         .load(randomBeer.getLabels().getMedium())
                         .error(R.drawable.empty_bottle)

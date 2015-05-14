@@ -39,6 +39,10 @@
             android:name=".activity.RandomBeerActivity"
             android:label="@string/title_activity_random_beer" >
         </activity>
+        <activity
+            android:name=".activity.BeerDetailActivity"
+            android:label="@string/title_activity_beer_detail" >
+        </activity>
     </application>
 
 </manifest>

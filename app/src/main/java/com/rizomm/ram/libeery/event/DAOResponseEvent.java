@@ -12,11 +12,12 @@ import lombok.Getter;
  * Created by Amaury on 14/05/2015.
  */
 @Data
-@Getter
 public class DAOResponseEvent extends EventObject {
 
-    public Beer currentBeer;
-    public List<Beer> beerList;
+    @Getter
+    private Beer currentBeer;
+    @Getter
+    private List<Beer> beerList;
 
     public DAOResponseEvent(Object source, Beer b) {
         super(source);

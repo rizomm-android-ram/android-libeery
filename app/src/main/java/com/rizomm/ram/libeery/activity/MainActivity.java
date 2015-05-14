@@ -123,21 +123,21 @@ public class MainActivity extends ActionBarActivity {
 //                System.out.println(error.toString());
 //            }
 //        });
-
-        service.getBeersByStyle(42, new Callback<List<Beer>>() {
-            @Override
-            public void success(List<Beer> beers, Response response) {
-                for (Iterator<Beer> beerIterator = beers.iterator(); beerIterator.hasNext(); ) {
-                    Beer beer = beerIterator.next();
-                    System.out.println(beer);
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                System.out.println(error.toString());
-            }
-        });
+//
+//        service.getBeersByStyle(42, new Callback<List<Beer>>() {
+//            @Override
+//            public void success(List<Beer> beers, Response response) {
+//                for (Iterator<Beer> beerIterator = beers.iterator(); beerIterator.hasNext(); ) {
+//                    Beer beer = beerIterator.next();
+//                    System.out.println(beer);
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                System.out.println(error.toString());
+//            }
+//        });
 
 //        service.getStyles(new Callback<List<Style>>() {
 //            @Override
@@ -165,37 +165,37 @@ public class MainActivity extends ActionBarActivity {
 //                System.out.println(error.toString());
 //            }
 //        });
-
-        service.getStyleByCategory(12, new Callback<List<Style>>() {
-            @Override
-            public void success(List<Style> styles, Response response) {
-                for (Iterator<Style> styleIterator = styles.iterator(); styleIterator.hasNext(); ) {
-                    Style style = styleIterator.next();
-                    System.out.println(style);
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                System.out.println(error.toString());
-            }
-        });
-
-        service.getCategories(new Callback<List<Category>>() {
-            @Override
-            public void success(List<Category> categories, Response response) {
-                for (Iterator<Category> categoryIterator = categories.iterator(); categoryIterator.hasNext(); ) {
-                    Category category = categoryIterator.next();
-                    System.out.println(category);
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                System.out.println(error.getUrl());
-                System.out.println(error.toString());
-            }
-        });
+//
+//        service.getStyleByCategory(12, new Callback<List<Style>>() {
+//            @Override
+//            public void success(List<Style> styles, Response response) {
+//                for (Iterator<Style> styleIterator = styles.iterator(); styleIterator.hasNext(); ) {
+//                    Style style = styleIterator.next();
+//                    System.out.println(style);
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                System.out.println(error.toString());
+//            }
+//        });
+//
+//        service.getCategories(new Callback<List<Category>>() {
+//            @Override
+//            public void success(List<Category> categories, Response response) {
+//                for (Iterator<Category> categoryIterator = categories.iterator(); categoryIterator.hasNext(); ) {
+//                    Category category = categoryIterator.next();
+//                    System.out.println(category);
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//                System.out.println(error.getUrl());
+//                System.out.println(error.toString());
+//            }
+//        });
 //
 //        service.getCategoryById(2, new Callback<Category>() {
 //            @Override

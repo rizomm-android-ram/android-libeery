@@ -1,5 +1,6 @@
 package com.rizomm.ram.libeery.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.experimental.Builder;
 @NoArgsConstructor
 @AllArgsConstructor(suppressConstructorProperties = true)
 @Builder
-public class Beer {
+public class Beer implements Serializable {
 
     private int id;
     private String beer_id;

@@ -73,6 +73,7 @@ public class WsBeerDAOImpl implements IBeersDAO {
 
         Labels l = new Labels();
         l.setIcon("http://upload.wikimedia.org/wikipedia/commons/0/07/AKE_Duff_Beer_IMG_5244_edit.jpg");
+        l.setMedium("http://upload.wikimedia.org/wikipedia/commons/0/07/AKE_Duff_Beer_IMG_5244_edit.jpg");
 
         Category c = new Category();
         c.setName("Categorie 1");

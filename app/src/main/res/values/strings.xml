@@ -3,9 +3,7 @@
 
     <string name="app_name">Libeery</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_add_beer">AddBeerActivity</string>
     <string name="addedBeerMessageOK">Bière ajoutée !</string>
     <string name="addedBeerMessageKO">Erreur. Bière non ajoutée.</string>
     <string name="labelBeerName">Nom</string>
@@ -20,6 +18,9 @@
     <color name="blue_normal">#2ECCFA</color>
     <color name="blue_pressed">#04B4AE</color>
 
-    <string name="title_activity_random_beer">RandomBeerActivity</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_add_beer">Add beer</string>
+    <string name="title_activity_random_beer">Random Beer</string>
+    <string name="title_activity_beer_detail">Beer details</string>
 
 </resources>

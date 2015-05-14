@@ -16,6 +16,8 @@ public class Constant {
     public static final int RESULT_CODE_OK = 1;
     public static final int RESULT_CODE_KO = 0;
 
+    public static final String INTENT_DETAIL_DATA_1 = "com.rizomm.ram.libeery.fragment.currentBeer";
+
     public Constant() {
     }
 }

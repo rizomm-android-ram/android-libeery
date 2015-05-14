@@ -1,5 +1,6 @@
 package com.rizomm.ram.libeery.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.Data;
  */
 
 @Data
-public class Category {
+public class Category implements Serializable{
 
     private int id;
     private String name;
