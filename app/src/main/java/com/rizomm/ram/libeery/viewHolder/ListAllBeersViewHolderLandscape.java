@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.model.Beer;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,10 +41,21 @@ public class ListAllBeersViewHolderLandscape implements ViewHolder {
     }
 
     public void updateView(Beer beer){
+        // Si la donné nom existe :
         if(beer.getName() != null && !beer.getName().isEmpty()){
             beerName.setText(beer.getName());
         }else{
             beerName.setText("NA");
+        }
+
+        // Si la donnée icone existe :
+        if(beer.getLabels() != null && beer.getLabels().getIcon() != null && !beer.getLabels().getIcon().isEmpty()){
+            // Ajout de l'icone de la bière en utilisant Picasso :
+            Picasso.with(context)
+                    .load(beer.getLabels().getIcon())
+                    .error(R.drawable.empty_bottle)
+                    .placeholder(R.drawable.empty_bottle)
+                    .into(beerIcon);
         }
     }
 
