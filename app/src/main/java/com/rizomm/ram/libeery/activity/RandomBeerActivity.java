@@ -9,22 +9,46 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.rizomm.ram.libeery.R;
+import com.rizomm.ram.libeery.dao.BeerDAOFactory;
+import com.rizomm.ram.libeery.dao.IBeersDAO;
+import com.rizomm.ram.libeery.event.DAOResponseEvent;
+import com.rizomm.ram.libeery.event.RandomBeerResponseListener;
+import com.rizomm.ram.libeery.model.Beer;
+import com.squareup.picasso.Picasso;
 
-public class RandomBeerActivity extends ActionBarActivity {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
+public class RandomBeerActivity extends ActionBarActivity implements RandomBeerResponseListener {
+
+    @InjectView(R.id.randomView_beerName) TextView mBeerName;
+    @InjectView(R.id.randomView_beerAlcoholLevel) TextView mBeerAlcoholLevel;
+    @InjectView(R.id.randomView_beerCategory) TextView mBeerCategory;
+    @InjectView(R.id.randomView_beerPicture) ImageView mBeerPicture;
+    @InjectView(R.id.randomView_beerType) TextView mBeerType;
+
+    private BeerDAOFactory daoFactory = new BeerDAOFactory();
     private SensorManager mSensorManager = null;
     private Sensor mAccelerometer = null;
     private float mAccel; // acceleration apart from gravity
     private float mAccelCurrent; // current acceleration including gravity
     private float mAccelLast; // last acceleration including gravity
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_random_beer);
+
+        // Récupération des éléments graphiques :
+        ButterKnife.inject(this);
+
+        // Affichage d'une bière aléatoire :
+        getRandomBeer();
 
         // Récupération du capteur gérant l'accéléromètre :
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -38,7 +62,6 @@ public class RandomBeerActivity extends ActionBarActivity {
             mAccelLast = SensorManager.GRAVITY_EARTH;
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,8 +113,72 @@ public class RandomBeerActivity extends ActionBarActivity {
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta; // perform low-cut filter
             if (mAccel > 5) {
-                Toast.makeText(RandomBeerActivity.this, "Device has shaken.", Toast.LENGTH_LONG).show();
+                // On recherche une nouvelle bière aléatoire :
+                getRandomBeer();
             }
         }
     };
+
+    /**
+     * Appelle le DAO afin de récupérer une bière aléatoire.
+     */
+    private void getRandomBeer(){
+        IBeersDAO dao = daoFactory.getBeerDao();
+        dao.addDaoResponseEventListener(this);
+        dao.getRandomBeer();
+    }
+
+    @Override
+    public void randomBeerResponse(DAOResponseEvent event) {
+        updateViewContent(event.getCurrentBeer());
+    }
+
+    /**
+     * Mise à jour du contenu de la vue avec les données d'une bière aléatoire
+     */
+    private void updateViewContent(Beer randomBeer){
+        if(randomBeer != null){
+            // Affichage du degré d'alcool :
+            mBeerAlcoholLevel.setText(String.valueOf(randomBeer.getAbv()));
+
+            // Affichage du nom de la bière :
+            if(randomBeer.getName() != null && !randomBeer.getName().isEmpty()){
+                mBeerName.setText(randomBeer.getName());
+            }else{
+                mBeerType.setText("NA");
+            }
+
+            // Affichage de la photo en utilisant Picasso :
+            if(randomBeer.getStyle() != null && randomBeer.getLabels() != null && !randomBeer.getLabels().getMedium().isEmpty()){
+                Picasso.with(this)
+                        .load(randomBeer.getLabels().getMedium())
+                        .error(R.drawable.empty_bottle)
+                        .placeholder(R.drawable.empty_bottle)
+                        .into(mBeerPicture);
+            }else{
+                mBeerPicture.setImageResource(R.drawable.empty_bottle);
+            }
+
+            // Affichage du style :
+            if(randomBeer.getStyle() != null && !randomBeer.getStyle().getName().isEmpty()){
+                mBeerType.setText(randomBeer.getStyle().getName());
+
+                // Affichage de la catégorie :
+                if(randomBeer.getStyle().getCategory() != null && !randomBeer.getStyle().getCategory().getName().isEmpty()){
+                    mBeerCategory.setText(randomBeer.getStyle().getCategory().getName());
+                }else{
+                    mBeerCategory.setText("NA");
+                }
+            }else{
+                mBeerType.setText("NA");
+            }
+        }else{
+            // Si randomBeer est null :
+            mBeerType.setText("NA");
+            mBeerCategory.setText("NA");
+            mBeerName.setText("NA");
+            mBeerAlcoholLevel.setText("NA");
+            mBeerPicture.setImageResource(R.drawable.empty_bottle);
+        }
+    }
 }
