@@ -74,7 +74,7 @@ public class SecondTabFragment extends Fragment implements DatasetChangedListene
     public void onItemSelected(int position){
         // On démarre l'activité de détail d'une bière :
         Intent detailIntent = new Intent(getActivity(), BeerDetailActivity.class);
-        detailIntent.putExtra(Constant.INTENT_DETAIL_DATA_1, (Beer) listViewFavoriteBeers.getItemAtPosition(position));
+        detailIntent.putExtra(Constant.INTENT_DETAIL_DATA_1, (FavoriteBeer) listViewFavoriteBeers.getItemAtPosition(position));
         startActivity(detailIntent);
     }
 

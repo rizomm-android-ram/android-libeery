@@ -202,7 +202,7 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
             String style = "";
 
             if(imageFile != null && imageFile.getCurrentPhotoPath() != null ){
-                path = imageFile.getCurrentPhotoPath();
+                path = imageFile.getImage().getAbsolutePath();
             }
             if(beerAlcoholLevel.getText() != null && !beerAlcoholLevel.getText().toString().isEmpty()){
                 alcoholLevel = Float.valueOf(beerAlcoholLevel.getText().toString());

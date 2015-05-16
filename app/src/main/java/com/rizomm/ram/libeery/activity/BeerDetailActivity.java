@@ -1,16 +1,22 @@
 package com.rizomm.ram.libeery.activity;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rizomm.ram.libeery.R;
+import com.rizomm.ram.libeery.database.helper.FavoriteBeersLocalDBHelper;
 import com.rizomm.ram.libeery.model.Beer;
+import com.rizomm.ram.libeery.model.FavoriteBeer;
 import com.rizomm.ram.libeery.utils.Constant;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -51,13 +57,44 @@ public class BeerDetailActivity extends ActionBarActivity {
                 mBeerType.setText("NA");
             }
 
-            // Affichage de la photo en utilisant Picasso :
+            // Récupération de la source pour l'image :
+            String mediumIcon = null;
             if(beer.getLabels() != null && beer.getLabels().getMedium() != null && !beer.getLabels().getMedium().isEmpty()){
-                Picasso.with(this)
-                        .load(beer.getLabels().getMedium())
-                        .error(R.drawable.empty_bottle)
-                        .placeholder(R.drawable.empty_bottle)
-                        .into(mBeerPicture);
+                mediumIcon = beer.getLabels().getMedium();
+            }
+            if(mediumIcon == null && beer.getLabel_medium() != null && !beer.getLabel_medium().isEmpty()){
+                mediumIcon = beer.getLabel_medium();
+            }
+
+            // Affichage de la photo :
+            if(mediumIcon != null){
+                // Si on affiche une bière favorite :
+                if(beer instanceof FavoriteBeer){
+                    // Si la bière favorite est une bière ajoutée manuellement :
+                    if(((FavoriteBeer) beer).getSrcType() == FavoriteBeersLocalDBHelper.IMAGE_TYPE.LOCAL_SRC.getValue()){
+                        // On retire l'attribut "file:" présent au début du nom du fichier :
+                        mediumIcon = mediumIcon.replace("file:","");
+                        // On récupère l'image :
+                        File imgFile = new  File(mediumIcon);
+                        if(imgFile.exists()){
+                            Bitmap myBitmap = null;
+                            try {
+                                // Affichage de l'image :
+                                mBeerPicture.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(imgFile)));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                // Affichage d'une image par défaut :
+                                mBeerPicture.setImageResource(R.drawable.empty_bottle);
+                            }
+                        }
+                    }else{
+                        // Si la bière favorite est une bière publique ajoutée au favories :
+                        printWithPicasso(mediumIcon);
+                    }
+                }else{
+                    // Si on affiche une bière publique :
+                    printWithPicasso(mediumIcon);
+                }
             }else{
                 mBeerPicture.setImageResource(R.drawable.empty_bottle);
             }
@@ -90,5 +127,16 @@ public class BeerDetailActivity extends ActionBarActivity {
             mBeerAlcoholLevel.setText("NA");
             mBeerPicture.setImageResource(R.drawable.empty_bottle);
         }
+    }
+
+    /**
+     * Affiche une image avec Picasso.
+     */
+    private void printWithPicasso(String src){
+        Picasso.with(this)
+                .load(src)
+                .error(R.drawable.empty_bottle)
+                .placeholder(R.drawable.empty_bottle)
+                .into(mBeerPicture);
     }
 }
