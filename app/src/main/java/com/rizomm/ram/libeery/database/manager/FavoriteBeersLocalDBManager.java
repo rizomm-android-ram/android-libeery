@@ -53,7 +53,6 @@ public class FavoriteBeersLocalDBManager {
      * @param beer
      */
     public void insert(Beer beer, int type) {
-        System.out.println("123 insert bdd");
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavoriteBeersLocalDBHelper.COL_ID, beer.getId());
         contentValues.put(FavoriteBeersLocalDBHelper.COL_NAME, beer.getName());
@@ -68,6 +67,10 @@ public class FavoriteBeersLocalDBManager {
         database.insert(FavoriteBeersLocalDBHelper.TABLE_FAVORITE, null, contentValues);
     }
 
+    /**
+     * Récupère la liste de toutes les bières.
+     * @return
+     */
     public List<FavoriteBeer> getAllfavoriteBeers(){
         System.out.println("123 select all");
         ArrayList<FavoriteBeer> favoriteBeerList = new ArrayList();
@@ -128,5 +131,38 @@ public class FavoriteBeersLocalDBManager {
         }
 
         return favoriteBeerList;
+    }
+
+    /**
+     * Supprime une bière de la base de données locale.
+     * @param beerToDelete La bière a supprimer.
+     */
+    public void delete(FavoriteBeer beerToDelete){
+        String where = "";
+        String[] array = {};
+        List<String> list = new ArrayList<>();
+
+        // Le nom de la bière est un critère obligatoire.
+        // S'il n'est pas présent, on ne supprime rien.
+        // Construction de la clause where et du tableau d'arguments
+        if(beerToDelete.getName() != null && !beerToDelete.getName().isEmpty()){
+            where += FavoriteBeersLocalDBHelper.COL_NAME + "= ? ";
+            list.add(beerToDelete.getName());
+
+            if(beerToDelete.getStyle() != null && beerToDelete.getStyle().getName() != null && !beerToDelete.getStyle().getName().isEmpty()){
+                where += "AND "+FavoriteBeersLocalDBHelper.COL_STYLE + " = ? ";
+                list.add(beerToDelete.getStyle().getName());
+            }
+            if(beerToDelete.getStyle() != null && beerToDelete.getStyle().getCategory() != null && beerToDelete.getStyle().getCategory().getName() != null && !beerToDelete.getStyle().getCategory().getName().isEmpty()){
+                where += "AND "+FavoriteBeersLocalDBHelper.COL_CATEGORY+ " = ? ";
+                list.add(beerToDelete.getStyle().getCategory().getName());
+            }
+            if(beerToDelete.getDescription() != null && !beerToDelete.getDescription().isEmpty()){
+                where += "AND "+FavoriteBeersLocalDBHelper.COL_DESCRIPTION + " = ? ";
+                list.add(beerToDelete.getDescription());
+            }
+            // Ordre de suppression dans la table :
+            database.delete(FavoriteBeersLocalDBHelper.TABLE_FAVORITE, where, list.toArray(array));
+        }
     }
 }

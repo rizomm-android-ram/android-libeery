@@ -46,22 +46,6 @@ public class MainActivity extends ActionBarActivity {
 
     private List<IDaoResponseListener> daoResponseEventListenersList = new ArrayList<>();
 
-    public void addDaoResponseEventListener(IDaoResponseListener listener) {
-        if(!daoResponseEventListenersList.contains(listener)){
-            daoResponseEventListenersList.add(listener);
-        }
-    }
-
-    private synchronized void fireSourceChanged(FavoriteBeer fb) {
-        DatasetChangedEvent event = new DatasetChangedEvent( this, fb);
-        Iterator listeners = daoResponseEventListenersList.iterator();
-        while( listeners.hasNext() ) {
-            ( (DatasetChangedListener) listeners.next() ).onDatasetChanged(event);
-        }
-    }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -271,11 +255,10 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @OnClick(R.id.add_button)
     /**
      * Clic sur le bouton permettant d'ajouter une bière.
      */
+    @OnClick(R.id.add_button)
     public void onAddButtonClick(){
         Intent addBeerIntent = new Intent(this, AddBeerActivity.class);
         startActivityForResult(addBeerIntent, Constant.ADD_BEER_REQUEST);
@@ -294,6 +277,29 @@ public class MainActivity extends ActionBarActivity {
             }
         }else{
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    /**
+     * Ajoute un listener à la liste des listeners.
+     * @param listener
+     */
+    public void addDaoResponseEventListener(IDaoResponseListener listener) {
+        if(!daoResponseEventListenersList.contains(listener)){
+            daoResponseEventListenersList.add(listener);
+        }
+    }
+
+    /**
+     * Propage un événement indiquant que la source des données a changé.<br />
+     * Typiquement quand on ajoute une bière favorite.
+     * @param fb La bière ajoutée.
+     */
+    private synchronized void fireSourceChanged(FavoriteBeer fb) {
+        DatasetChangedEvent event = new DatasetChangedEvent( this, fb);
+        Iterator listeners = daoResponseEventListenersList.iterator();
+        while( listeners.hasNext() ) {
+            ( (DatasetChangedListener) listeners.next() ).onDatasetChanged(event);
         }
     }
 }

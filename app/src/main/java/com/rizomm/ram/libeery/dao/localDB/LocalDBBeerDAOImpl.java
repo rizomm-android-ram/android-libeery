@@ -47,6 +47,10 @@ public class LocalDBBeerDAOImpl implements IFavoriteBeersDAO {
 
     @Override
     public void deleteBeer(FavoriteBeer beerToDelete) {
+        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(context);
+        manager.open();
+        manager.delete(beerToDelete);
+        manager.close();
     }
 
     @Override

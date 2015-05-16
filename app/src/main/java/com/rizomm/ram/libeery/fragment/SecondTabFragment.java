@@ -26,6 +26,7 @@ import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.FavoriteBeer;
 import com.rizomm.ram.libeery.utils.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -82,15 +83,27 @@ public class SecondTabFragment extends Fragment implements DatasetChangedListene
      * @param position
      */
     @OnItemLongClick(R.id.listFavoriteBeers)
-    public boolean onItemLongPress(int position){
-        Beer beerToDelete = (Beer) listViewFavoriteBeers.getItemAtPosition(position);
+    public boolean onItemLongPress(final int position){
+        final FavoriteBeer beerToDelete = (FavoriteBeer) listViewFavoriteBeers.getItemAtPosition(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.title_delete_beer).setMessage(getString(R.string.message_delete_beer) +" " + beerToDelete.getName() +" ?");
         builder.setCancelable(true);
         builder.setPositiveButton(R.string.button_delete_beer_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                // Suppression de la bière de la BdD :
+                DAOFactory factory = new DAOFactory();
+                IFavoriteBeersDAO dao = factory.getFavoriteBeersDao();
+                if(dao instanceof LocalDBBeerDAOImpl){
+                    ((LocalDBBeerDAOImpl) dao).setContext(getActivity());
+                }
+                dao.deleteBeer(beerToDelete);
 
+                // Suppression de la bière de la liste :
+                listFavoriteBeers.remove(position);
+
+                // On notifie l'adapter que la source de données a changé.
+                listFavoriteBeersAdapter.notifyDataSetChanged();
             }
         });
         builder.setNegativeButton(R.string.button_delete_beer_ko, new DialogInterface.OnClickListener() {
