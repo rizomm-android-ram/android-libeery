@@ -1,78 +1,100 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.rizomm.ram.libeery.activity.BeerDetailActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/detailView_beerPicture"
-            android:src="@drawable/empty_bottle"
-            android:layout_width="@dimen/add_beer_picture_width"
-            android:layout_height="@dimen/add_beer_picture_height"
-            android:layout_gravity="center_horizontal"
-            />
-
-        <TextView
-            android:text="@string/labelBeerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/detailView_beerName"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/random_beer_text_size"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:text="@string/labelBeerCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/detailView_beerPicture"
+                android:src="@drawable/empty_bottle"
+                android:layout_width="@dimen/add_beer_picture_width"
+                android:layout_height="@dimen/add_beer_picture_height"
+                android:layout_gravity="center_horizontal"
+                />
 
-        <TextView
-            android:id="@+id/detailView_beerCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/random_beer_text_size"/>
+            <TextView
+                android:text="@string/labelBeerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:text="@string/labelBeerType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/detailView_beerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/random_beer_text_size"/>
 
-        <TextView
-            android:id="@+id/detailView_beerType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/random_beer_text_size"/>
+            <TextView
+                android:text="@string/labelBeerCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:text="@string/labelBeerAlcoholLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/detailView_beerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/random_beer_text_size"/>
 
-        <TextView
-            android:id="@+id/detailView_beerAlcoholLevel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/random_beer_text_size"/>
+            <TextView
+                android:text="@string/labelBeerType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <TextView
-            android:text="@string/labelBeerDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/detailView_beerType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/random_beer_text_size"/>
 
-        <TextView
-            android:id="@+id/detailView_beerDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/labelBeerAlcoholLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/detailView_beerAlcoholLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/random_beer_text_size"/>
 
-</ScrollView>
+            <TextView
+                android:text="@string/labelBeerDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/detailView_beerDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- Boutton flottant -->
+    <com.getbase.floatingactionbutton.FloatingActionButton
+    android:id="@+id/detailView_addFavoriteButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    fab:fab_icon="@drawable/ic_add_to_favorite"
+    fab:fab_colorNormal="@color/blue_normal"
+    fab:fab_colorPressed="@color/blue_pressed"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:layout_marginBottom="16dp"
+    android:visibility="invisible"
+    />
+
+</RelativeLayout>

@@ -5,10 +5,16 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.rizomm.ram.libeery.R;
+import com.rizomm.ram.libeery.dao.DAOFactory;
+import com.rizomm.ram.libeery.dao.IFavoriteBeersDAO;
+import com.rizomm.ram.libeery.dao.localDB.LocalDBBeerDAOImpl;
 import com.rizomm.ram.libeery.database.helper.FavoriteBeersLocalDBHelper;
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.FavoriteBeer;
@@ -20,6 +26,7 @@ import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class BeerDetailActivity extends ActionBarActivity {
 
@@ -29,6 +36,9 @@ public class BeerDetailActivity extends ActionBarActivity {
     @InjectView(R.id.detailView_beerPicture) ImageView mBeerPicture;
     @InjectView(R.id.detailView_beerType) TextView mBeerType;
     @InjectView(R.id.detailView_beerDescription) TextView mBeerDescription;
+    @InjectView(R.id.detailView_addFavoriteButton) FloatingActionButton mAddFavoriteButton;
+
+    private Beer currentBeer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +48,38 @@ public class BeerDetailActivity extends ActionBarActivity {
         // Récupération des éléments graphiques :
         ButterKnife.inject(this);
 
-        Beer currentBeer = (Beer)getIntent().getSerializableExtra(Constant.INTENT_DETAIL_DATA_1);
+        currentBeer = (Beer)getIntent().getSerializableExtra(Constant.INTENT_DETAIL_DATA_1);
         updateViewContent(currentBeer);
+
+        /* Si la bière a afficher n'est pas déjà une bière favorite, on affiche le bouton d'ajout aux favoris : */
+        if(!(currentBeer instanceof FavoriteBeer)){
+            mAddFavoriteButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Clic sur le bouton pour ajouter une bière aux favories.
+     */
+    @OnClick(R.id.detailView_addFavoriteButton)
+    public void onAddFavoriteButtonClick(){
+        FavoriteBeer fb = new FavoriteBeer();
+        fb = fb.beerToFavoriteBeer(currentBeer, FavoriteBeersLocalDBHelper.IMAGE_TYPE.REMOTE_SRC.getValue());
+        addToFavorite(fb);
+    }
+
+    /**
+     * Ajoute une bière aux favories.
+     * @param fb La bière à ajouter.
+     */
+    private void addToFavorite(FavoriteBeer fb){
+        DAOFactory factory = new DAOFactory();
+        IFavoriteBeersDAO dao = factory.getFavoriteBeersDao();
+        if(dao instanceof LocalDBBeerDAOImpl){
+            ((LocalDBBeerDAOImpl) dao).setContext(getApplication());
+        }
+        dao.addBeerToFavorite(fb);
+        // On masque le bouton :
+        mAddFavoriteButton.setVisibility(View.INVISIBLE);
     }
 
     /**

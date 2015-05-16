@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.activity.BeerDetailActivity;
+import com.rizomm.ram.libeery.activity.MainActivity;
 import com.rizomm.ram.libeery.adapter.ListAllBeersAdapter;
 import com.rizomm.ram.libeery.dao.DAOFactory;
 import com.rizomm.ram.libeery.dao.IBeersDAO;

@@ -125,16 +125,26 @@ public class SecondTabFragment extends Fragment implements DatasetChangedListene
          if(dao instanceof LocalDBBeerDAOImpl){
              ((LocalDBBeerDAOImpl)dao).setContext(getActivity());
          }
-
-         listFavoriteBeers = dao.getFavoriteBeers();
+        if(listFavoriteBeers == null){
+            listFavoriteBeers = new ArrayList<>();
+        }
+         listFavoriteBeers.clear();
+         listFavoriteBeers.addAll(dao.getFavoriteBeers());
     }
 
     @Override
     public void onDatasetChanged(DatasetChangedEvent event) {
-        Toast.makeText(getActivity(),"datasetchanged",Toast.LENGTH_SHORT).show();
         if(event.getFavoriteBeerAdded() != null){
             listFavoriteBeers.add(event.getFavoriteBeerAdded());
         }
+        listFavoriteBeersAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        /* A la reprise de l'application, on recharge la liste des bières favorites. */
+        getFavoriteBeerList();
         listFavoriteBeersAdapter.notifyDataSetChanged();
     }
 }
