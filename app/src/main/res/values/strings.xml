@@ -13,8 +13,10 @@
     <string name="labelBeerDescription">Description</string>
     <string name="labelButtonBeerValidate">Valider</string>
     <string name="errorNoCameraAvailable">Impossible d\'utiliser la caméra de cet appareil.</string>
+
     <string name="action_settings">Settings</string>
     <string name="action_random_beer">Random beer</string>
+    <string name="action_refresh_random_beer">Rafraichir</string>
 
     <color name="blue_normal">#2ECCFA</color>
     <color name="blue_pressed">#04B4AE</color>
