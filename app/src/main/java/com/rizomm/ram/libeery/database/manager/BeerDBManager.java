@@ -29,6 +29,7 @@ public class BeerDBManager {
     public BeerDBManager(Context c) { context = c;}
 
     public BeerDBManager open() throws SQLException {
+
         beerDBHelper = new BeerDBHelper(context);
         database = beerDBHelper.getWritableDatabase();
         return this;
@@ -37,6 +38,7 @@ public class BeerDBManager {
     public void close() { beerDBHelper.close();}
 
     public void insert(Beer beer) {
+        System.out.println("123 insert bdd");
         ContentValues contentValues = new ContentValues();
         contentValues.put(BeerDBHelper.BEER_ID, beer.getId());
         contentValues.put(BeerDBHelper.NAME, beer.getName());

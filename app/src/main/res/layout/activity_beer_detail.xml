@@ -31,6 +31,17 @@
             android:textSize="@dimen/random_beer_text_size"/>
 
         <TextView
+            android:text="@string/labelBeerCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/detailView_beerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/random_beer_text_size"/>
+
+        <TextView
             android:text="@string/labelBeerType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -53,15 +64,14 @@
             android:textSize="@dimen/random_beer_text_size"/>
 
         <TextView
-            android:text="@string/labelBeerCategory"
+            android:text="@string/labelBeerDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/detailView_beerCategory"
+            android:id="@+id/detailView_beerDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/random_beer_text_size"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

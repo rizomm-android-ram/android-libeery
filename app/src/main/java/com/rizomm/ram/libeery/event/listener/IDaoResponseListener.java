@@ -1,4 +1,4 @@
-package com.rizomm.ram.libeery.event;
+package com.rizomm.ram.libeery.event.listener;
 
 /**
  * Created by Amaury on 14/05/2015.

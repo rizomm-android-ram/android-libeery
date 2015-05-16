@@ -34,5 +34,8 @@ public class Beer implements Serializable {
     private Glass glass;
     private Available available;
     private Style style;
+    private String label_icon;
+    private String label_medium;
+    private String label_large;
 
 }

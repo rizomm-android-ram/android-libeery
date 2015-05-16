@@ -1,6 +1,6 @@
 package com.rizomm.ram.libeery.dao;
 
-import com.rizomm.ram.libeery.event.IDaoResponseListener;
+import com.rizomm.ram.libeery.event.listener.IDaoResponseListener;
 import com.rizomm.ram.libeery.model.Beer;
 
 import java.util.List;
@@ -17,12 +17,6 @@ public interface IBeersDAO {
      * @return
      */
     public List<Beer> getAllBeers();
-
-    /**
-     * Récupère la liste des bières favorites.
-     * @return
-     */
-    public List<Beer> getFavoriteBeers();
 
     /**
      * Récupère la liste des bières respectant le pattern fourni.

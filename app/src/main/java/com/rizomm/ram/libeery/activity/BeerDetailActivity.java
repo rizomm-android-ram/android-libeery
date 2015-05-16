@@ -22,6 +22,7 @@ public class BeerDetailActivity extends ActionBarActivity {
     @InjectView(R.id.detailView_beerCategory) TextView mBeerCategory;
     @InjectView(R.id.detailView_beerPicture) ImageView mBeerPicture;
     @InjectView(R.id.detailView_beerType) TextView mBeerType;
+    @InjectView(R.id.detailView_beerDescription) TextView mBeerDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,13 @@ public class BeerDetailActivity extends ActionBarActivity {
                 }
             }else{
                 mBeerType.setText("NA");
+            }
+
+            // Affichage de la description :
+            if(beer.getDescription() != null && !beer.getDescription().isEmpty()){
+                mBeerDescription.setText(beer.getDescription());
+            }else{
+                mBeerDescription.setText("NA");
             }
         }else{
             // Si randomBeer est null :

@@ -10,6 +10,7 @@
     <string name="labelBeerType">Type</string>
     <string name="labelBeerAlcoholLevel">Degré</string>
     <string name="labelBeerCategory">Categorie</string>
+    <string name="labelBeerDescription">Description</string>
     <string name="labelButtonBeerValidate">Valider</string>
     <string name="errorNoCameraAvailable">Impossible d\'utiliser la caméra de cet appareil.</string>
     <string name="action_settings">Settings</string>
@@ -22,5 +23,10 @@
     <string name="title_activity_add_beer">Add beer</string>
     <string name="title_activity_random_beer">Random Beer</string>
     <string name="title_activity_beer_detail">Beer details</string>
+
+    <string name="title_delete_beer">Supprimer ?</string>
+    <string name="message_delete_beer">Voulez-vous supprimer</string>
+    <string name="button_delete_beer_ok">Oui</string>
+    <string name="button_delete_beer_ko">Non</string>
 
 </resources>

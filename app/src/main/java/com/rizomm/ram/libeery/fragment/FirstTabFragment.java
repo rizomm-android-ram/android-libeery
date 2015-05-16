@@ -9,25 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListView;
 
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.activity.BeerDetailActivity;
 import com.rizomm.ram.libeery.adapter.ListAllBeersAdapter;
-import com.rizomm.ram.libeery.dao.BeerDAOFactory;
+import com.rizomm.ram.libeery.dao.DAOFactory;
 import com.rizomm.ram.libeery.dao.IBeersDAO;
-import com.rizomm.ram.libeery.database.manager.BeerDBManager;
 import com.rizomm.ram.libeery.model.Beer;
-import com.rizomm.ram.libeery.model.Style;
 import com.rizomm.ram.libeery.utils.Constant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
-import butterknife.OnItemSelected;
 
 /**
  * Fragment représentant le premier onglet de l'application.
@@ -36,7 +31,7 @@ public class FirstTabFragment extends Fragment {
 
     private ListAllBeersAdapter listAllBeersAdapter;
     private List<Beer> allBeersList ;
-    private BeerDAOFactory daoFactory = new BeerDAOFactory();
+    private DAOFactory daoFactory = new DAOFactory();
 
     @InjectView(R.id.listAllBeers) AbsListView listAllBeers;
 

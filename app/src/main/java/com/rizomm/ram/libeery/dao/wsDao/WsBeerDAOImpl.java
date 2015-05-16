@@ -3,9 +3,9 @@ package com.rizomm.ram.libeery.dao.wsDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rizomm.ram.libeery.dao.IBeersDAO;
-import com.rizomm.ram.libeery.event.DAOResponseEvent;
-import com.rizomm.ram.libeery.event.IDaoResponseListener;
-import com.rizomm.ram.libeery.event.RandomBeerResponseListener;
+import com.rizomm.ram.libeery.event.DAOBeerResponseEvent;
+import com.rizomm.ram.libeery.event.listener.IDaoResponseListener;
+import com.rizomm.ram.libeery.event.listener.RandomBeerResponseListener;
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.Category;
 import com.rizomm.ram.libeery.model.Glass;
@@ -114,50 +114,6 @@ public class WsBeerDAOImpl implements IBeersDAO {
     }
 
     @Override
-    public List<Beer> getFavoriteBeers() {
-        List<Beer> allBeersList = new ArrayList<>();
-        Beer b1 = new Beer();
-        b1.setName("Chouffe");
-        Beer b2 = new Beer();
-        b2.setName("Grimbergen");
-        Beer b3 = new Beer();
-        b3.setName("1664");
-        Beer b4 = new Beer();
-        b4.setName("Kro");
-
-        Glass g = new Glass();
-        g.setName("Verre à bière");
-        Category c = new Category();
-        c.setName("Categorie 1");
-        Style s1 = new Style();
-        s1.setName("A bulle");
-        s1.setCategory(c);
-        Labels l = new Labels();
-        l.setIcon("https://s3.amazonaws.com/brewerydbapi/beer/nxmBqg/upload_UqTqav-icon.png");
-
-        b1.setStyle(s1);
-        b2.setStyle(s1);
-        b3.setStyle(s1);
-        b4.setStyle(s1);
-
-        b1.setGlass(g);
-        b2.setGlass(g);
-        b3.setGlass(g);
-        b4.setGlass(g);
-
-        b1.setLabels(l);
-        b2.setLabels(l);
-        b3.setLabels(l);
-        b4.setLabels(l);
-
-        allBeersList.add(b1);
-        allBeersList.add(b2);
-        allBeersList.add(b3);
-        allBeersList.add(b4);
-        return allBeersList;
-    }
-
-    @Override
     public List<Beer> getBeersByName(String name) {
 //        Glass g = new Glass();
 //        g.setName("Verre à bière");
@@ -188,33 +144,6 @@ public class WsBeerDAOImpl implements IBeersDAO {
 
     @Override
     public Beer getRandomBeer() {
-//        int i = (int)(Math.random() * 1);
-//
-//        if(i ==0){
-//            Glass g = new Glass();
-//            g.setName("Verre à bière");
-//            Category c = new Category();
-//            c.setName("Categorie 1");
-//            Style s = new Style();
-//            s.setCategory(c);
-//            s.setName("Style 1");
-//            Labels l = new Labels();
-//            l.setIcon("https://nickshell1983.files.wordpress.com/2010/03/killians-irish-red.jpg");
-//            Beer b = new Beer().builder().abv((new Float(12.5))).name("Killians").glass(g).style(s).labels(l).build();
-//            return b;
-//        }else{
-//            Glass g = new Glass();
-//            g.setName("Verre à binouse");
-//            Category c = new Category();
-//            c.setName("Categorie 2");
-//            Style s = new Style();
-//            s.setCategory(c);
-//            s.setName("Style 2");
-//            Labels l = new Labels();
-//            l.setIcon("http://www.guidedesbieres.com/photos/3524-bouteille-de-pelforth-brune-et-son-verre.jpg");
-//            Beer b = new Beer().builder().abv((new Float(6.7))).name("Pelforth").glass(g).style(s).labels(l).build();
-//            return b;
-//        }
         service.getRandomBeer(new Callback<Beer>() {
             @Override
             public void success(Beer beer, Response response) {
@@ -237,7 +166,7 @@ public class WsBeerDAOImpl implements IBeersDAO {
      * @param b La bière trouvée.
      */
     private synchronized void fireRandomBeerResponse(Beer b) {
-        DAOResponseEvent event = new DAOResponseEvent( this, b);
+        DAOBeerResponseEvent event = new DAOBeerResponseEvent( this, b);
         Iterator listeners = daoResponseEventListenersList.iterator();
         while( listeners.hasNext() ) {
             ( (RandomBeerResponseListener) listeners.next() ).randomBeerResponse( event );

@@ -2,6 +2,8 @@ package com.rizomm.ram.libeery.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -14,18 +16,13 @@ import com.google.gson.GsonBuilder;
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.adapter.SlidingTabsPagerAdapter;
 import com.rizomm.ram.libeery.commonViews.SlidingTabLayout;
-import com.rizomm.ram.libeery.database.manager.BeerDBManager;
-import com.rizomm.ram.libeery.database.manager.CategoryDBManager;
-import com.rizomm.ram.libeery.database.manager.GlassDBManager;
-import com.rizomm.ram.libeery.database.manager.StyleDBManager;
-import com.rizomm.ram.libeery.model.Beer;
-import com.rizomm.ram.libeery.model.Category;
-import com.rizomm.ram.libeery.model.Glass;
-import com.rizomm.ram.libeery.model.Style;
-import com.rizomm.ram.libeery.service.BreweryDBService;
+import com.rizomm.ram.libeery.event.DatasetChangedEvent;
+import com.rizomm.ram.libeery.event.listener.DatasetChangedListener;
+import com.rizomm.ram.libeery.event.listener.IDaoResponseListener;
+import com.rizomm.ram.libeery.fragment.SecondTabFragment;
+import com.rizomm.ram.libeery.model.FavoriteBeer;
 import com.rizomm.ram.libeery.service.LibeeryRestService;
 import com.rizomm.ram.libeery.utils.Constant;
-import com.rizomm.ram.libeery.wrapper.BeerWrapper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,10 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import retrofit.Callback;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
 
@@ -50,6 +44,24 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.viewPager) ViewPager viewPager;
     @InjectView(R.id.add_button) FloatingActionButton addButton;
 
+    private List<IDaoResponseListener> daoResponseEventListenersList = new ArrayList<>();
+
+    public void addDaoResponseEventListener(IDaoResponseListener listener) {
+        if(!daoResponseEventListenersList.contains(listener)){
+            daoResponseEventListenersList.add(listener);
+        }
+    }
+
+    private synchronized void fireSourceChanged(FavoriteBeer fb) {
+        DatasetChangedEvent event = new DatasetChangedEvent( this, fb);
+        Iterator listeners = daoResponseEventListenersList.iterator();
+        while( listeners.hasNext() ) {
+            ( (DatasetChangedListener) listeners.next() ).onDatasetChanged(event);
+        }
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +71,11 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
 
         // Ajout de l'adapter et de des vues qu'il contient au tabLayout
-        adapter = new SlidingTabsPagerAdapter(getSupportFragmentManager());
+        adapter = new SlidingTabsPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
         slidingTabLayout.setViewPager(viewPager);
 
-        Gson gson = new GsonBuilder()
+/*        Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
@@ -71,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
                 .setConverter(new GsonConverter(gson))
                 .build();
 
-        LibeeryRestService service = restAdapter.create(LibeeryRestService.class);
+        LibeeryRestService service = restAdapter.create(LibeeryRestService.class);*/
 //
 //        service.getCountBeer(new Callback<String>() {
 //            @Override
@@ -274,6 +286,9 @@ public class MainActivity extends ActionBarActivity {
         if(requestCode == Constant.ADD_BEER_REQUEST){
             if(resultCode == Constant.RESULT_CODE_OK){
                 Toast.makeText(this, R.string.addedBeerMessageOK, Toast.LENGTH_LONG).show();
+                Bundle bundle = data.getExtras();
+                FavoriteBeer fb = (FavoriteBeer)bundle.getSerializable("123456");
+                fireSourceChanged(fb);
             }else{
                 Toast.makeText(this, R.string.addedBeerMessageKO, Toast.LENGTH_LONG).show();
             }

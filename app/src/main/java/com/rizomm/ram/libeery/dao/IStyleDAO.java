@@ -1,5 +1,6 @@
 package com.rizomm.ram.libeery.dao;
 
+import com.rizomm.ram.libeery.event.listener.IDaoResponseListener;
 import com.rizomm.ram.libeery.model.Style;
 
 import java.util.List;
@@ -9,5 +10,12 @@ import java.util.List;
  */
 public interface IStyleDAO {
 
-    public List<Style> getAllStyles();
+    public void addDaoResponseEventListener(IDaoResponseListener listener);
+
+    /**
+     * Récupère la liste des styles d'une catégorie.
+     * @param categoryId
+     * @return
+     */
+    public List<Style> getStyleByCategory(int categoryId);
 }

@@ -1,6 +1,7 @@
 package com.rizomm.ram.libeery.event;
 
 import com.rizomm.ram.libeery.model.Beer;
+import com.rizomm.ram.libeery.model.FavoriteBeer;
 
 import java.util.EventObject;
 import java.util.List;
@@ -12,20 +13,17 @@ import lombok.Getter;
  * Created by Amaury on 14/05/2015.
  */
 @Data
-public class DAOResponseEvent extends EventObject {
+public class DatasetChangedEvent extends EventObject {
 
     @Getter
-    private Beer currentBeer;
-    @Getter
-    private List<Beer> beerList;
+    FavoriteBeer favoriteBeerAdded;
 
-    public DAOResponseEvent(Object source, Beer b) {
+    public DatasetChangedEvent(Object source) {
         super(source);
-        currentBeer = b;
     }
 
-    public DAOResponseEvent(Object source, List<Beer> list) {
+    public DatasetChangedEvent(Object source, FavoriteBeer beer) {
         super(source);
-        beerList = list;
+        favoriteBeerAdded = beer;
     }
 }

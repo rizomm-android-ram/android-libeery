@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rizomm.ram.libeery.R;
-import com.rizomm.ram.libeery.dao.BeerDAOFactory;
+import com.rizomm.ram.libeery.dao.DAOFactory;
 import com.rizomm.ram.libeery.dao.IBeersDAO;
-import com.rizomm.ram.libeery.event.DAOResponseEvent;
-import com.rizomm.ram.libeery.event.RandomBeerResponseListener;
+import com.rizomm.ram.libeery.event.DAOBeerResponseEvent;
+import com.rizomm.ram.libeery.event.listener.RandomBeerResponseListener;
 import com.rizomm.ram.libeery.model.Beer;
 import com.squareup.picasso.Picasso;
 
@@ -30,8 +30,9 @@ public class RandomBeerActivity extends ActionBarActivity implements RandomBeerR
     @InjectView(R.id.randomView_beerCategory) TextView mBeerCategory;
     @InjectView(R.id.randomView_beerPicture) ImageView mBeerPicture;
     @InjectView(R.id.randomView_beerType) TextView mBeerType;
+    @InjectView(R.id.randomView_beerDescription) TextView mBeerDescription;
 
-    private BeerDAOFactory daoFactory = new BeerDAOFactory();
+    private DAOFactory daoFactory = new DAOFactory();
     private SensorManager mSensorManager = null;
     private Sensor mAccelerometer = null;
     private float mAccel; // acceleration apart from gravity
@@ -129,7 +130,7 @@ public class RandomBeerActivity extends ActionBarActivity implements RandomBeerR
     }
 
     @Override
-    public void randomBeerResponse(DAOResponseEvent event) {
+    public void randomBeerResponse(DAOBeerResponseEvent event) {
         updateViewContent(event.getCurrentBeer());
     }
 
@@ -156,7 +157,15 @@ public class RandomBeerActivity extends ActionBarActivity implements RandomBeerR
                         .placeholder(R.drawable.empty_bottle)
                         .into(mBeerPicture);
             }else{
-                mBeerPicture.setImageResource(R.drawable.empty_bottle);
+                if(randomBeer.getLabel_medium() != null && !randomBeer.getLabel_medium().isEmpty()){
+                    Picasso.with(this)
+                            .load(randomBeer.getLabel_medium())
+                            .error(R.drawable.empty_bottle)
+                            .placeholder(R.drawable.empty_bottle)
+                            .into(mBeerPicture);
+                }else{
+                    mBeerPicture.setImageResource(R.drawable.empty_bottle);
+                }
             }
 
             // Affichage du style :
@@ -171,6 +180,13 @@ public class RandomBeerActivity extends ActionBarActivity implements RandomBeerR
                 }
             }else{
                 mBeerType.setText("NA");
+            }
+
+            // Affichage de la description :
+            if(randomBeer.getDescription() != null && !randomBeer.getDescription().isEmpty()){
+                mBeerDescription.setText(randomBeer.getDescription());
+            }else{
+                mBeerDescription.setText("NA");
             }
         }else{
             // Si randomBeer est null :
