@@ -44,7 +44,7 @@ public interface LibeeryRestService {
     void getStyleById(@Path("id") int styleId, Callback<Style> styleCallback);
 
     @GET("/styles/{style_id}/by/category")
-    void getStyleByCategory(@Path("id") int categoryId, Callback<List<Style>> stylesCallback);
+    void getStyleByCategory(@Path("style_id") int categoryId, Callback<List<Style>> stylesCallback);
 
     @GET("/glassware")
     void getGlassware(Callback<List<Glass>> glasswareCallback);

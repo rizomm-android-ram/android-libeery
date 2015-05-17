@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.rizomm.ram.libeery.activity.MainActivity;
 import com.rizomm.ram.libeery.fragment.FirstTabFragment;
 import com.rizomm.ram.libeery.fragment.SecondTabFragment;
 
@@ -17,10 +18,11 @@ public class SlidingTabsPagerAdapter extends FragmentPagerAdapter {
     private FirstTabFragment firstTabFragment;
     private SecondTabFragment secondTabFragment;
 
-    public SlidingTabsPagerAdapter(FragmentManager fm) {
+    public SlidingTabsPagerAdapter(FragmentManager fm, MainActivity parent) {
         super(fm);
         firstTabFragment = new FirstTabFragment();
         secondTabFragment = new SecondTabFragment();
+        secondTabFragment.setParent(parent);
     }
 
     @Override

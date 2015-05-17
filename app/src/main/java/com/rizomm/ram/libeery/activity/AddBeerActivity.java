@@ -4,39 +4,59 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.rizomm.ram.libeery.R;
+import com.rizomm.ram.libeery.dao.DAOFactory;
+import com.rizomm.ram.libeery.dao.ICategoryDAO;
+import com.rizomm.ram.libeery.dao.IFavoriteBeersDAO;
+import com.rizomm.ram.libeery.dao.IStyleDAO;
+import com.rizomm.ram.libeery.dao.localDB.LocalDBBeerDAOImpl;
+import com.rizomm.ram.libeery.database.helper.FavoriteBeersLocalDBHelper;
+import com.rizomm.ram.libeery.event.listener.CategoryResponseListener;
+import com.rizomm.ram.libeery.event.DAOCategoryResponseEvent;
+import com.rizomm.ram.libeery.event.DAOStyleResponseEvent;
+import com.rizomm.ram.libeery.event.listener.StyleResponseListener;
+import com.rizomm.ram.libeery.model.Beer;
+import com.rizomm.ram.libeery.model.Category;
+import com.rizomm.ram.libeery.model.FavoriteBeer;
+import com.rizomm.ram.libeery.model.Style;
 import com.rizomm.ram.libeery.utils.Constant;
 import com.rizomm.ram.libeery.utils.ImageFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 
-public class AddBeerActivity extends ActionBarActivity {
+public class AddBeerActivity extends ActionBarActivity implements CategoryResponseListener, StyleResponseListener {
 
     @InjectView(R.id.addView_beerName) EditText beerName;
-    @InjectView(R.id.addView_beerType) EditText beerType;
-    @InjectView(R.id.addView_beerCategory) EditText beerCategory;
+    @InjectView(R.id.addView_beerType) Spinner beerType;
+    @InjectView(R.id.addView_beerCategory) Spinner beerCategory;
     @InjectView(R.id.addView_beerAlcoholLevel) EditText beerAlcoholLevel;
     @InjectView(R.id.addView_beerPicture) ImageView beerPicture;
+    @InjectView(R.id.addView_beerDescription) EditText beerDescription;
     @InjectView(R.id.addView_validateButton) Button validateButton;
 
     private ImageFile imageFile;
+    private List<Category> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +65,56 @@ public class AddBeerActivity extends ActionBarActivity {
 
         // Récupération des éléments graphiques via ButterKnife
         ButterKnife.inject(this);
+
+        // Récupération de la liste des categories :
+        getCategoryList();
+    }
+
+    /**
+     * Récupère la liste des catégories
+     */
+    private void getCategoryList(){
+        DAOFactory factory = new DAOFactory();
+        ICategoryDAO dao = factory.getCategoryDao();
+        dao.addDaoResponseEventListener(this);
+        dao.getAllCategories();
+    }
+
+    /**
+     * Rempli le spinner Categorie avec des données
+     * @param categoryStringList La liste des categories à afficher.
+     */
+    private void populateCategorySpinner(List<String> categoryStringList){
+        String[] spinnerArray = new String[categoryStringList.size()];
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, categoryStringList.toArray(spinnerArray));
+        beerCategory.setAdapter(adapter);
+    }
+
+    /**
+     * Rempli le spinner Style avec des données
+     * @param styleStringList La liste des styles à afficher.
+     */
+    private void populateStyleSinner(List<String> styleStringList){
+        String[] spinnerArray = new String[styleStringList.size()];
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, styleStringList.toArray(spinnerArray));
+        beerType.setAdapter(adapter);
+    }
+
+    @OnItemSelected(R.id.addView_beerCategory)
+    public void onCategoryChange(int position){
+        Category c = categoryList.get(position);
+        getStyleList(c.getId());
+    }
+
+    /**
+     * Récupère la liste des styles d'une catégorie.
+     * @param categoryId
+     */
+    private void getStyleList(int categoryId){
+        DAOFactory factory = new DAOFactory();
+        IStyleDAO dao = factory.getStyleDAO();
+        dao.addDaoResponseEventListener(this);
+        dao.getStyleByCategory(categoryId);
     }
 
     /**
@@ -119,7 +189,58 @@ public class AddBeerActivity extends ActionBarActivity {
         Intent resultIntent = new Intent();
 
         if(!beerName.getText().toString().isEmpty()){
-            setResult(Constant.RESULT_CODE_OK);
+            DAOFactory daoFactory = new DAOFactory();
+            IFavoriteBeersDAO dao = daoFactory.getFavoriteBeersDao();
+            if(dao instanceof LocalDBBeerDAOImpl){
+                ((LocalDBBeerDAOImpl)dao).setContext(getApplicationContext());
+            }
+
+            String path = "";
+            Float alcoholLevel = Float.valueOf("0.0");
+            String desc = "";
+            String cat = "";
+            String style = "";
+
+            if(imageFile != null && imageFile.getCurrentPhotoPath() != null ){
+                path = imageFile.getImage().getAbsolutePath();
+            }
+            if(beerAlcoholLevel.getText() != null && !beerAlcoholLevel.getText().toString().isEmpty()){
+                alcoholLevel = Float.valueOf(beerAlcoholLevel.getText().toString());
+            }
+            if(beerCategory.getSelectedItem() != null && !beerCategory.getSelectedItem().toString().isEmpty()){
+                cat = beerCategory.getSelectedItem().toString();
+            }
+            if(beerType.getSelectedItem() != null && !beerType.getSelectedItem().toString().isEmpty()){
+                style = beerType.getSelectedItem().toString();
+            }
+            if(beerDescription.getText() != null && !beerDescription.getText().toString().isEmpty()){
+                desc = beerDescription.getText().toString();
+            }
+
+            // Création de l'objet bière :
+            Category c = new Category();
+            c.setName(cat);
+
+            Style s = new Style();
+            s.setName(style);
+            s.setCategory(c);
+
+            Beer b = Beer.builder()
+                    .abv(alcoholLevel)
+                    .name(beerName.getText().toString())
+                    .label_icon(path)
+                    .label_large(path)
+                    .label_medium(path)
+                    .description(desc)
+                    .style(s).build();
+            FavoriteBeer fb = new FavoriteBeer();
+            fb = fb.beerToFavoriteBeer(b, FavoriteBeersLocalDBHelper.IMAGE_TYPE.LOCAL_SRC.getValue());
+
+            // Ajout de la bière à la liste des favorites :
+            dao.addBeerToFavorite(fb);
+
+            // On informe que l'action s'est bien déroulée :
+            setResult(Constant.RESULT_CODE_OK, resultIntent.putExtra("123456", fb));
         }else{
             setResult(Constant.RESULT_CODE_KO);
         }
@@ -141,5 +262,28 @@ public class AddBeerActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCategoryResponse(DAOCategoryResponseEvent event) {
+        categoryList = event.getCategoryList();
+        List<String> list = new ArrayList<>();
+        for(Category c : event.getCategoryList()){
+            if(c.getName() != null && !c.getName().isEmpty()){
+                list.add(c.getName());
+            }
+        }
+        populateCategorySpinner(list);
+    }
+
+    @Override
+    public void onStyleResponse(DAOStyleResponseEvent event) {
+        List<String> list = new ArrayList<>();
+        for(Style s : event.getStyleList()){
+            if(s.getName() != null && !s.getName().isEmpty()){
+                list.add(s.getName());
+            }
+        }
+        populateStyleSinner(list);
     }
 }

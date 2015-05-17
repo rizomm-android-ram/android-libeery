@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/listAllBeers_BeerStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/listAllBeers_BeerIcon"
+        android:layout_width="@dimen/beer_icon_width"
+        android:layout_height="@dimen/beer_icon_height"
+        android:src="@drawable/empty_bottle"
+        android:layout_margin="@dimen/beer_icon_margin"
+        />
 
     <TextView
         android:id="@+id/listAllBeers_BeerName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_gravity="center_vertical"/>
 
 </LinearLayout>

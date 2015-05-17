@@ -1,5 +1,6 @@
 package com.rizomm.ram.libeery.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -8,7 +9,7 @@ import java.util.Date;
  */
 
 @lombok.Data
-public class Glass {
+public class Glass implements Serializable{
 
     private int id;
     private String name;

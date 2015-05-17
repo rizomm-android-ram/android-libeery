@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.rizomm.ram.libeery.model.Beer;
+import com.rizomm.ram.libeery.model.FavoriteBeer;
 import com.rizomm.ram.libeery.viewHolder.ListAllBeersViewHolder;
 import com.rizomm.ram.libeery.viewHolder.ListAllBeersViewHolderLandscape;
 import com.rizomm.ram.libeery.viewHolder.ListFavoriteBeersViewHolder;
@@ -22,12 +23,12 @@ import java.util.List;
 public class ListFavoriteBeersAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Beer> dataSource;
+    private List<FavoriteBeer> dataSource;
     private ViewHolder viewHolder;
     private View cellView;
     private Beer beer;
 
-    public ListFavoriteBeersAdapter(Context context, List<Beer> beerList){
+    public ListFavoriteBeersAdapter(Context context, List<FavoriteBeer> beerList){
         this.context = context;
         this.dataSource = beerList;
     }
