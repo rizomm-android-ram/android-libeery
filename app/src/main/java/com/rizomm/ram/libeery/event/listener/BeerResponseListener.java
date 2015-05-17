@@ -5,8 +5,8 @@ import com.rizomm.ram.libeery.event.DAOBeerResponseEvent;
 /**
  * Created by Amaury on 14/05/2015.
  */
-public interface RandomBeerResponseListener extends IDaoResponseListener {
+public interface BeerResponseListener extends IDaoResponseListener {
 
-    public void randomBeerResponse(DAOBeerResponseEvent event);
+    public void onBeerResponse(DAOBeerResponseEvent event);
 
 }

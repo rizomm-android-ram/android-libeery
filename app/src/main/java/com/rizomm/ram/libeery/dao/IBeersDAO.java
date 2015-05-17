@@ -2,6 +2,7 @@ package com.rizomm.ram.libeery.dao;
 
 import com.rizomm.ram.libeery.event.listener.IDaoResponseListener;
 import com.rizomm.ram.libeery.model.Beer;
+import com.rizomm.ram.libeery.model.Style;
 
 import java.util.List;
 
@@ -30,5 +31,12 @@ public interface IBeersDAO {
      * @return
      */
     public Beer getRandomBeer();
+
+    /**
+     * Récupère une liste des bières appartenant à un style.
+     * @param style
+     * @return
+     */
+    public List<Beer> getBeersByStyle(Style style);
 
 }

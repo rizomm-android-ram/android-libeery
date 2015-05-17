@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rizomm.ram.libeery.dao.IBeersDAO;
 import com.rizomm.ram.libeery.event.DAOBeerResponseEvent;
+import com.rizomm.ram.libeery.event.listener.BeerResponseListener;
 import com.rizomm.ram.libeery.event.listener.IDaoResponseListener;
-import com.rizomm.ram.libeery.event.listener.RandomBeerResponseListener;
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.Category;
 import com.rizomm.ram.libeery.model.Glass;
@@ -38,6 +38,7 @@ public class WsBeerDAOImpl implements IBeersDAO {
 
     private LibeeryRestService service = restAdapter.create(LibeeryRestService.class);
 
+    private List<Beer> listBeersByStyle = null;
     private List<Beer> listBeersByName = null;
     private Beer randomBeer = null;
 
@@ -131,6 +132,7 @@ public class WsBeerDAOImpl implements IBeersDAO {
             @Override
             public void success(List<Beer> beers, Response response) {
                 listBeersByName = beers;
+                fireListBeerResponse(listBeersByName);
             }
 
             @Override
@@ -148,7 +150,7 @@ public class WsBeerDAOImpl implements IBeersDAO {
             @Override
             public void success(Beer beer, Response response) {
                 randomBeer = beer;
-                fireRandomBeerResponse(randomBeer);
+                fireBeerResponse(randomBeer);
             }
 
             @Override
@@ -161,15 +163,45 @@ public class WsBeerDAOImpl implements IBeersDAO {
         return randomBeer;
     }
 
+    @Override
+    public List<Beer> getBeersByStyle(Style style){
+        service.getBeersByStyle(style.getId(), new Callback<List<Beer>>() {
+            @Override
+            public void success(List<Beer> beers, Response response) {
+                listBeersByStyle = beers;
+                fireListBeerResponse(beers);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                listBeersByStyle = null;
+                System.out.println(error.toString());
+            }
+        });
+        return listBeersByStyle;
+    }
+
     /**
-     * Propage l'événement de réponse d'une bière aléatoire.
+     * Propage l'événement de réponse d'une bière.
      * @param b La bière trouvée.
      */
-    private synchronized void fireRandomBeerResponse(Beer b) {
+    private synchronized void fireBeerResponse(Beer b) {
         DAOBeerResponseEvent event = new DAOBeerResponseEvent( this, b);
         Iterator listeners = daoResponseEventListenersList.iterator();
         while( listeners.hasNext() ) {
-            ( (RandomBeerResponseListener) listeners.next() ).randomBeerResponse( event );
+            ( (BeerResponseListener) listeners.next() ).onBeerResponse(event);
+        }
+    }
+
+    /**
+     * Propage un événement de réponse d'une liste de bières.
+     * @param list
+     */
+    private synchronized void fireListBeerResponse(List<Beer> list) {
+        DAOBeerResponseEvent event = new DAOBeerResponseEvent( this, list);
+        Iterator listeners = daoResponseEventListenersList.iterator();
+        while( listeners.hasNext() ) {
+            ( (BeerResponseListener) listeners.next() ).onBeerResponse( event );
         }
     }
 }

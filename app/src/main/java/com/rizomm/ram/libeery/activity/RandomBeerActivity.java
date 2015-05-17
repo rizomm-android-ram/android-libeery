@@ -16,14 +16,14 @@ import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.dao.DAOFactory;
 import com.rizomm.ram.libeery.dao.IBeersDAO;
 import com.rizomm.ram.libeery.event.DAOBeerResponseEvent;
-import com.rizomm.ram.libeery.event.listener.RandomBeerResponseListener;
+import com.rizomm.ram.libeery.event.listener.BeerResponseListener;
 import com.rizomm.ram.libeery.model.Beer;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class RandomBeerActivity extends ActionBarActivity implements RandomBeerResponseListener {
+public class RandomBeerActivity extends ActionBarActivity implements BeerResponseListener {
 
     @InjectView(R.id.randomView_beerName) TextView mBeerName;
     @InjectView(R.id.randomView_beerAlcoholLevel) TextView mBeerAlcoholLevel;
@@ -131,7 +131,7 @@ public class RandomBeerActivity extends ActionBarActivity implements RandomBeerR
     }
 
     @Override
-    public void randomBeerResponse(DAOBeerResponseEvent event) {
+    public void onBeerResponse(DAOBeerResponseEvent event) {
         updateViewContent(event.getCurrentBeer());
     }
 
