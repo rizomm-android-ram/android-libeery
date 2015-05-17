@@ -77,7 +77,8 @@
             <TextView
                 android:id="@+id/detailView_beerDescription"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/random_beer_text_size"/>
 
         </LinearLayout>
 
