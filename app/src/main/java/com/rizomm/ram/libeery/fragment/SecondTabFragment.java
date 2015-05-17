@@ -62,7 +62,9 @@ public class SecondTabFragment extends Fragment implements DatasetChangedListene
         listFavoriteBeersAdapter = new ListFavoriteBeersAdapter(getActivity(), listFavoriteBeers);
         listViewFavoriteBeers.setAdapter(listFavoriteBeersAdapter);
 
-        parent.addDaoResponseEventListener(this);
+        if(parent != null){
+            parent.addDaoResponseEventListener(this);
+        }
 
         return rootView;
     }

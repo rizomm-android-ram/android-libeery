@@ -58,8 +58,16 @@ public class FavoriteBeersLocalDBManager {
         contentValues.put(FavoriteBeersLocalDBHelper.COL_NAME, beer.getName());
         contentValues.put(FavoriteBeersLocalDBHelper.COL_DESCRIPTION, beer.getDescription());
         contentValues.put(FavoriteBeersLocalDBHelper.COL_DEGRE, beer.getAbv());
-        contentValues.put(FavoriteBeersLocalDBHelper.COL_CATEGORY, beer.getStyle().getCategory().getName());
-        contentValues.put(FavoriteBeersLocalDBHelper.COL_STYLE, beer.getStyle().getName());
+        if(beer.getStyle() != null && beer.getStyle().getCategory() != null && beer.getStyle().getCategory().getName() != null){
+            contentValues.put(FavoriteBeersLocalDBHelper.COL_CATEGORY, beer.getStyle().getCategory().getName());
+        }else{
+            contentValues.put(FavoriteBeersLocalDBHelper.COL_CATEGORY, "NA");
+        }
+        if(beer.getStyle() != null && beer.getStyle().getName() != null){
+            contentValues.put(FavoriteBeersLocalDBHelper.COL_STYLE, beer.getStyle().getName());
+        }else{
+            contentValues.put(FavoriteBeersLocalDBHelper.COL_STYLE, "NA");
+        }
         contentValues.put(FavoriteBeersLocalDBHelper.COL_ICON_SRC, beer.getLabel_icon());
         contentValues.put(FavoriteBeersLocalDBHelper.COL_MEDIUM_SRC, beer.getLabel_medium());
         contentValues.put(FavoriteBeersLocalDBHelper.COL_LARGE_SRC, beer.getLabel_large());
