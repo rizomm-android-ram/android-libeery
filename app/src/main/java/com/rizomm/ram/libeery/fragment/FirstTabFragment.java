@@ -174,6 +174,8 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
      */
     @OnItemSelected(R.id.firstTab_beerType)
     public void onStyleChange(int position){
+        mSearchArea.setVisibility(View.GONE);
+        mShowSearchAreaButton.setVisibility(View.VISIBLE);
         Style s = styleList.get(position);
         getAllBeerByStyleList(s);
     }
