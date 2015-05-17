@@ -44,14 +44,25 @@ public class ListFavoriteBeersViewHolderLandscape implements ViewHolder {
         }
 
         // Si la donnée icone existe :
+        String pict = null;
         if(beer.getLabels() != null && beer.getLabels().getIcon() != null && !beer.getLabels().getIcon().isEmpty()){
-            // Ajout de l'icone de la bière en utilisant Picasso :
-            Picasso.with(context)
-                    .load(beer.getLabels().getIcon())
-                    .error(R.drawable.empty_bottle)
-                    .placeholder(R.drawable.empty_bottle)
-                    .into(beerIcon);
+            pict = new String();
+            pict = beer.getLabels().getIcon();
         }
+        if(pict == null && beer.getLabel_icon() != null && !beer.getLabel_icon().isEmpty()) {
+            pict = new String();
+            pict = beer.getLabel_icon();
+        }
+        if(pict == null){
+            pict = new String();
+            pict = "vide";
+        }
+        // Ajout de l'icone de la bière en utilisant Picasso :
+        Picasso.with(context)
+                .load(pict)
+                .error(R.drawable.empty_bottle)
+                .placeholder(R.drawable.empty_bottle)
+                .into(beerIcon);
     }
 
     public View getView(){
