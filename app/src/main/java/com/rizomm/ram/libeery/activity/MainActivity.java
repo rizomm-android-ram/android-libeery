@@ -270,7 +270,7 @@ public class MainActivity extends ActionBarActivity {
             if(resultCode == Constant.RESULT_CODE_OK){
                 Toast.makeText(this, R.string.addedBeerMessageOK, Toast.LENGTH_LONG).show();
                 Bundle bundle = data.getExtras();
-                FavoriteBeer fb = (FavoriteBeer)bundle.getSerializable("123456");
+                FavoriteBeer fb = (FavoriteBeer)bundle.getSerializable(Constant.ADD_BEER_RESULT);
                 fireSourceChanged(fb);
             }else{
                 Toast.makeText(this, R.string.addedBeerMessageKO, Toast.LENGTH_LONG).show();

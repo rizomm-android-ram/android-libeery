@@ -263,7 +263,7 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
             dao.addBeerToFavorite(fb);
 
             // On informe que l'action s'est bien déroulée :
-            setResult(Constant.RESULT_CODE_OK, resultIntent.putExtra("123456", fb));
+            setResult(Constant.RESULT_CODE_OK, resultIntent.putExtra(Constant.ADD_BEER_RESULT, fb));
         }else{
             setResult(Constant.RESULT_CODE_KO);
         }
