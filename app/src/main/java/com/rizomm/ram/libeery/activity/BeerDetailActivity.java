@@ -1,6 +1,9 @@
 package com.rizomm.ram.libeery.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -128,8 +131,30 @@ public class BeerDetailActivity extends ActionBarActivity {
                         if(imgFile.exists()){
                             Bitmap myBitmap = null;
                             try {
+                                String fileName = imgFile.getAbsolutePath();
+                                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(imgFile));
+
+                                /* Rotation de l'image */
+                                BitmapFactory.Options bounds = new BitmapFactory.Options();
+                                bounds.inJustDecodeBounds = true;
+                                BitmapFactory.decodeFile(fileName, bounds);
+
+                                ExifInterface exif = new ExifInterface(fileName);
+                                String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+                                int orientation = orientString != null ? Integer.parseInt(orientString) :  ExifInterface.ORIENTATION_NORMAL;
+
+                                int rotationAngle = 0;
+                                if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+                                if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+                                if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+                                System.out.println(rotationAngle);
+
+                                Matrix matrix = new Matrix();
+                                matrix.setRotate(rotationAngle, (float) imageBitmap.getWidth() / 2, (float) imageBitmap.getHeight() / 2);
+                                imageBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+
                                 // Affichage de l'image :
-                                mBeerPicture.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(imgFile)));
+                                mBeerPicture.setImageBitmap(imageBitmap);
                             } catch (IOException e) {
                                 e.printStackTrace();
                                 // Affichage d'une image par défaut :
