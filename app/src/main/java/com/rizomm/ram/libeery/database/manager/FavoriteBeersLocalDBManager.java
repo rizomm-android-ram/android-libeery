@@ -37,7 +37,6 @@ public class FavoriteBeersLocalDBManager {
      * @throws SQLException
      */
     public FavoriteBeersLocalDBManager open() throws SQLException {
-        System.out.println("123 open bdd");
         favoriteBeersLocalDBHelper = new FavoriteBeersLocalDBHelper(context);
         database = favoriteBeersLocalDBHelper.getWritableDatabase();
         return this;
@@ -80,7 +79,6 @@ public class FavoriteBeersLocalDBManager {
      * @return
      */
     public List<FavoriteBeer> getAllfavoriteBeers(){
-        System.out.println("123 select all");
         ArrayList<FavoriteBeer> favoriteBeerList = new ArrayList();
         String[] columns = new String[] {
                 FavoriteBeersLocalDBHelper.COL_ID,
@@ -172,5 +170,25 @@ public class FavoriteBeersLocalDBManager {
             // Ordre de suppression dans la table :
             database.delete(FavoriteBeersLocalDBHelper.TABLE_FAVORITE, where, list.toArray(array));
         }
+    }
+
+    /**
+     * Récupère la liste des ID des bières favorites
+     * @return
+     */
+    public List<String> getFavoriteBeersIds(){
+        List<String> idList = new ArrayList<>();
+        String[] columns = new String[] {FavoriteBeersLocalDBHelper.COL_ID};
+        Cursor cursor = database.query(FavoriteBeersLocalDBHelper.TABLE_FAVORITE,columns, null, null,null,null,null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String id = cursor.getString(cursor.getColumnIndex(FavoriteBeersLocalDBHelper.COL_ID));
+                    idList.add(id);
+                }while (cursor.moveToNext());
+            }
+        }
+        return idList;
     }
 }

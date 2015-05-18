@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -51,8 +52,16 @@ public class BeerDetailActivity extends ActionBarActivity {
         currentBeer = (Beer)getIntent().getSerializableExtra(Constant.INTENT_DETAIL_DATA_1);
         updateViewContent(currentBeer);
 
+        // Récupération des ID des bières favorites :
+        DAOFactory factory = new DAOFactory();
+        IFavoriteBeersDAO dao = factory.getFavoriteBeersDao();
+        if(dao instanceof LocalDBBeerDAOImpl){
+            ((LocalDBBeerDAOImpl) dao).setContext(this);
+        }
+        List<String> idList = dao.getFavoriteBeersIds();
+
         /* Si la bière a afficher n'est pas déjà une bière favorite, on affiche le bouton d'ajout aux favoris : */
-        if(!(currentBeer instanceof FavoriteBeer)){
+        if(!(currentBeer instanceof FavoriteBeer) && !idList.contains(String.valueOf(currentBeer.getId()))){
             mAddFavoriteButton.setVisibility(View.VISIBLE);
         }
     }

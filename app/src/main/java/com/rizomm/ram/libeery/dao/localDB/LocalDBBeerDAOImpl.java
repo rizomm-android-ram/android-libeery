@@ -60,4 +60,14 @@ public class LocalDBBeerDAOImpl implements IFavoriteBeersDAO {
         manager.insert(beerToAdd, beerToAdd.getSrcType());
         manager.close();
     }
+
+    @Override
+    public List<String> getFavoriteBeersIds() {
+        List<String> idList ;
+        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(context);
+        manager.open();
+        idList = manager.getFavoriteBeersIds();
+        manager.close();
+        return idList;
+    }
 }
