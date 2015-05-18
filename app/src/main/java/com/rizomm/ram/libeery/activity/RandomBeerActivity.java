@@ -147,7 +147,7 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
             if(randomBeer.getName() != null && !randomBeer.getName().isEmpty()){
                 mBeerName.setText(randomBeer.getName());
             }else{
-                mBeerType.setText("NA");
+                mBeerType.setText(R.string.non_applicable);
             }
 
             // Affichage de la photo en utilisant Picasso :
@@ -177,24 +177,24 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
                 if(randomBeer.getStyle().getCategory() != null && !randomBeer.getStyle().getCategory().getName().isEmpty()){
                     mBeerCategory.setText(randomBeer.getStyle().getCategory().getName());
                 }else{
-                    mBeerCategory.setText("NA");
+                    mBeerCategory.setText(R.string.non_applicable);
                 }
             }else{
-                mBeerType.setText("NA");
+                mBeerType.setText(R.string.non_applicable);
             }
 
             // Affichage de la description :
             if(randomBeer.getDescription() != null && !randomBeer.getDescription().isEmpty()){
                 mBeerDescription.setText(randomBeer.getDescription());
             }else{
-                mBeerDescription.setText("NA");
+                mBeerDescription.setText(R.string.non_applicable);
             }
         }else{
             // Si randomBeer est null :
-            mBeerType.setText("NA");
-            mBeerCategory.setText("NA");
-            mBeerName.setText("NA");
-            mBeerAlcoholLevel.setText("NA");
+            mBeerType.setText(R.string.non_applicable);
+            mBeerCategory.setText(R.string.non_applicable);
+            mBeerName.setText(R.string.non_applicable);
+            mBeerAlcoholLevel.setText(R.string.non_applicable);
             mBeerPicture.setImageResource(R.drawable.empty_bottle);
         }
     }

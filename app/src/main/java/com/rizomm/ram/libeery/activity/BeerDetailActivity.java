@@ -1,6 +1,9 @@
 package com.rizomm.ram.libeery.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -23,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -51,8 +55,16 @@ public class BeerDetailActivity extends ActionBarActivity {
         currentBeer = (Beer)getIntent().getSerializableExtra(Constant.INTENT_DETAIL_DATA_1);
         updateViewContent(currentBeer);
 
+        // Récupération des ID des bières favorites :
+        DAOFactory factory = new DAOFactory();
+        IFavoriteBeersDAO dao = factory.getFavoriteBeersDao();
+        if(dao instanceof LocalDBBeerDAOImpl){
+            ((LocalDBBeerDAOImpl) dao).setContext(this);
+        }
+        List<String> idList = dao.getFavoriteBeersIds();
+
         /* Si la bière a afficher n'est pas déjà une bière favorite, on affiche le bouton d'ajout aux favoris : */
-        if(!(currentBeer instanceof FavoriteBeer)){
+        if(!(currentBeer instanceof FavoriteBeer) && !idList.contains(String.valueOf(currentBeer.getId()))){
             mAddFavoriteButton.setVisibility(View.VISIBLE);
         }
     }
@@ -94,7 +106,7 @@ public class BeerDetailActivity extends ActionBarActivity {
             if(beer.getName() != null && !beer.getName().isEmpty()){
                 mBeerName.setText(beer.getName());
             }else{
-                mBeerType.setText("NA");
+                mBeerType.setText(R.string.non_applicable);
             }
 
             // Récupération de la source pour l'image :
@@ -119,8 +131,30 @@ public class BeerDetailActivity extends ActionBarActivity {
                         if(imgFile.exists()){
                             Bitmap myBitmap = null;
                             try {
+                                String fileName = imgFile.getAbsolutePath();
+                                Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(imgFile));
+
+                                /* Rotation de l'image */
+                                BitmapFactory.Options bounds = new BitmapFactory.Options();
+                                bounds.inJustDecodeBounds = true;
+                                BitmapFactory.decodeFile(fileName, bounds);
+
+                                ExifInterface exif = new ExifInterface(fileName);
+                                String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+                                int orientation = orientString != null ? Integer.parseInt(orientString) :  ExifInterface.ORIENTATION_NORMAL;
+
+                                int rotationAngle = 0;
+                                if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+                                if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+                                if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+                                System.out.println(rotationAngle);
+
+                                Matrix matrix = new Matrix();
+                                matrix.setRotate(rotationAngle, (float) imageBitmap.getWidth() / 2, (float) imageBitmap.getHeight() / 2);
+                                imageBitmap = Bitmap.createBitmap(imageBitmap, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+
                                 // Affichage de l'image :
-                                mBeerPicture.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(imgFile)));
+                                mBeerPicture.setImageBitmap(imageBitmap);
                             } catch (IOException e) {
                                 e.printStackTrace();
                                 // Affichage d'une image par défaut :
@@ -147,24 +181,24 @@ public class BeerDetailActivity extends ActionBarActivity {
                 if(beer.getStyle().getCategory() != null && !beer.getStyle().getCategory().getName().isEmpty()){
                     mBeerCategory.setText(beer.getStyle().getCategory().getName());
                 }else{
-                    mBeerCategory.setText("NA");
+                    mBeerCategory.setText(R.string.non_applicable);
                 }
             }else{
-                mBeerType.setText("NA");
+                mBeerType.setText(R.string.non_applicable);
             }
 
             // Affichage de la description :
             if(beer.getDescription() != null && !beer.getDescription().isEmpty()){
                 mBeerDescription.setText(beer.getDescription());
             }else{
-                mBeerDescription.setText("NA");
+                mBeerDescription.setText(R.string.non_applicable);
             }
         }else{
             // Si randomBeer est null :
-            mBeerType.setText("NA");
-            mBeerCategory.setText("NA");
-            mBeerName.setText("NA");
-            mBeerAlcoholLevel.setText("NA");
+            mBeerType.setText(R.string.non_applicable);
+            mBeerCategory.setText(R.string.non_applicable);
+            mBeerName.setText(R.string.non_applicable);
+            mBeerAlcoholLevel.setText(R.string.non_applicable);
             mBeerPicture.setImageResource(R.drawable.empty_bottle);
         }
     }

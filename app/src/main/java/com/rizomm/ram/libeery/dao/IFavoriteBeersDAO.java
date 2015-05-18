@@ -30,4 +30,9 @@ public interface IFavoriteBeersDAO {
      */
     public void addBeerToFavorite(FavoriteBeer beerToAdd);
 
+    /**
+     * récupère la liste des ID des bières favorites.
+     * @return
+     */
+    public List<String> getFavoriteBeersIds();
 }

@@ -18,6 +18,7 @@ public class FavoriteBeer extends Beer implements Serializable{
 
     public FavoriteBeer beerToFavoriteBeer(Beer b, int srcType){
         FavoriteBeer fb = new FavoriteBeer();
+        fb.setId(b.getId());
         fb.setName(b.getName());
         fb.setSrcType(srcType);
         fb.setStyle(b.getStyle());
