@@ -32,5 +32,7 @@
     <string name="button_delete_beer_ko">Non</string>
     <string name="button_ok">OK</string>
     <string name="button_show_search_area">Recherche</string>
+    
+    <string name="non_applicable">NA</string>
 
 </resources>
