@@ -9,19 +9,30 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.dao.DAOFactory;
 import com.rizomm.ram.libeery.dao.IBeersDAO;
+import com.rizomm.ram.libeery.dao.IFavoriteBeersDAO;
+import com.rizomm.ram.libeery.dao.localDB.LocalDBBeerDAOImpl;
+import com.rizomm.ram.libeery.database.helper.FavoriteBeersLocalDBHelper;
 import com.rizomm.ram.libeery.event.DAOBeerResponseEvent;
 import com.rizomm.ram.libeery.event.listener.BeerResponseListener;
 import com.rizomm.ram.libeery.model.Beer;
+import com.rizomm.ram.libeery.model.FavoriteBeer;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class RandomBeerActivity extends ActionBarActivity implements BeerResponseListener {
 
@@ -31,6 +42,7 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
     @InjectView(R.id.randomView_beerPicture) ImageView mBeerPicture;
     @InjectView(R.id.randomView_beerType) TextView mBeerType;
     @InjectView(R.id.randomView_beerDescription) TextView mBeerDescription;
+    @InjectView(R.id.randomView_addFavoriteButton) FloatingActionButton mAddFavoriteButton;
 
     private DAOFactory mDaoFactory = new DAOFactory();
     private SensorManager mSensorManager = null;
@@ -38,6 +50,7 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
     private float mAccel; // acceleration apart from gravity
     private float mAccelCurrent; // current acceleration including gravity
     private float mAccelLast; // last acceleration including gravity
+    private Beer mCurrentBeer;
 
 
     @Override
@@ -132,7 +145,8 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
 
     @Override
     public void onBeerResponse(DAOBeerResponseEvent event) {
-        updateViewContent(event.getCurrentBeer());
+        mCurrentBeer = event.getCurrentBeer();
+        updateViewContent(mCurrentBeer);
     }
 
     /**
@@ -140,6 +154,19 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
      */
     private void updateViewContent(Beer randomBeer){
         if(randomBeer != null){
+            // Récupération des ID des bières favorites :
+            DAOFactory factory = new DAOFactory();
+            IFavoriteBeersDAO dao = factory.getFavoriteBeersDao();
+            if(dao instanceof LocalDBBeerDAOImpl){
+                ((LocalDBBeerDAOImpl) dao).setContext(this);
+            }
+            List<String> idList = dao.getFavoriteBeersIds();
+
+            /* Si la bière a afficher n'est pas déjà une bière favorite, on affiche le bouton d'ajout aux favoris : */
+            if(!(randomBeer instanceof FavoriteBeer) && !idList.contains(String.valueOf(randomBeer.getId()))){
+                mAddFavoriteButton.setVisibility(View.VISIBLE);
+            }
+
             // Affichage du degré d'alcool :
             if (randomBeer.getAbv() != 0.0 ) {
                 String degree = String.valueOf(randomBeer.getAbv());
@@ -203,5 +230,31 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
             mBeerAlcoholLevel.setText(R.string.non_applicable);
             mBeerPicture.setImageResource(R.drawable.empty_bottle);
         }
+    }
+
+    /**
+     * Clic sur le bouton pour ajouter la bière en cours aux favories
+     */
+    @OnClick(R.id.randomView_addFavoriteButton)
+    public void onAddFavoriteButtonClick(){
+        FavoriteBeer fb = new FavoriteBeer();
+        fb = fb.beerToFavoriteBeer(mCurrentBeer, FavoriteBeersLocalDBHelper.IMAGE_TYPE.REMOTE_SRC.getValue());
+        addToFavorite(fb);
+        Crouton.makeText(this, R.string.addedFavoriteBeerMessageOK, Style.CONFIRM).show();
+    }
+
+    /**
+     * Ajoute une bière aux favories.
+     * @param fb La bière à ajouter.
+     */
+    private void addToFavorite(FavoriteBeer fb){
+        DAOFactory factory = new DAOFactory();
+        IFavoriteBeersDAO dao = factory.getFavoriteBeersDao();
+        if(dao instanceof LocalDBBeerDAOImpl){
+            ((LocalDBBeerDAOImpl) dao).setContext(getApplication());
+        }
+        dao.addBeerToFavorite(fb);
+        // On masque le bouton :
+        mAddFavoriteButton.setVisibility(View.INVISIBLE);
     }
 }
