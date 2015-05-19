@@ -20,22 +20,22 @@ import java.util.Date;
  */
 public class GlassDBManager {
 
-    private DatabaseHelper databaseHelper;
-    private Context context;
-    private SQLiteDatabase database;
+    private DatabaseHelper mDatabaseHelper;
+    private Context mContext;
+    private SQLiteDatabase mDatabase;
 
     public GlassDBManager(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     public GlassDBManager open() throws SQLException {
-        databaseHelper = new DatabaseHelper(context);
-        database = databaseHelper.getWritableDatabase();
+        mDatabaseHelper = new DatabaseHelper(mContext);
+        mDatabase = mDatabaseHelper.getWritableDatabase();
         return this;
     }
 
     public void close() {
-        databaseHelper.close();
+        mDatabaseHelper.close();
     }
 
     public void insert(int id, String name, Date create_date){
@@ -43,20 +43,20 @@ public class GlassDBManager {
         contentValues.put(DatabaseHelper._ID, id);
         contentValues.put(DatabaseHelper.NAME, name);
         contentValues.put(DatabaseHelper.CREATE_DATE, Constant.DATE_FORMAT.format(create_date));
-        database.insert(DatabaseHelper.TABLE_GLASS, null, contentValues);
+        mDatabase.insert(DatabaseHelper.TABLE_GLASS, null, contentValues);
     }
 
     public int update(long _id, String name, Date create_date){
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME, name);
         contentValues.put(DatabaseHelper.CREATE_DATE, Constant.DATE_FORMAT.format(create_date));
-        int i = database.update(DatabaseHelper.TABLE_GLASS, contentValues, DatabaseHelper._ID + "=" + _id, null);
+        int i = mDatabase.update(DatabaseHelper.TABLE_GLASS, contentValues, DatabaseHelper._ID + "=" + _id, null);
 
         return i;
     }
 
     public void delete(long _id) {
-        database.delete(DatabaseHelper.TABLE_GLASS, DatabaseHelper._ID + "=" + _id, null);
+        mDatabase.delete(DatabaseHelper.TABLE_GLASS, DatabaseHelper._ID + "=" + _id, null);
     }
 
     public ArrayList<Glass> getGlassware() {
@@ -68,7 +68,7 @@ public class GlassDBManager {
                 DatabaseHelper.CREATE_DATE
         };
 
-        Cursor cursor = database.query(DatabaseHelper.TABLE_GLASS, columns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_GLASS, columns, null, null, null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
             do {

@@ -22,20 +22,20 @@ import java.util.Date;
  */
 public class BeerDBManager {
 
-    private BeerDBHelper beerDBHelper;
-    private Context context;
-    private SQLiteDatabase database;
+    private BeerDBHelper mBeerDBHelper;
+    private Context mContext;
+    private SQLiteDatabase mDatabase;
 
-    public BeerDBManager(Context c) { context = c;}
+    public BeerDBManager(Context c) { mContext = c;}
 
     public BeerDBManager open() throws SQLException {
 
-        beerDBHelper = new BeerDBHelper(context);
-        database = beerDBHelper.getWritableDatabase();
+        mBeerDBHelper = new BeerDBHelper(mContext);
+        mDatabase = mBeerDBHelper.getWritableDatabase();
         return this;
     }
 
-    public void close() { beerDBHelper.close();}
+    public void close() { mBeerDBHelper.close();}
 
     public void insert(Beer beer) {
         System.out.println("123 insert bdd");
@@ -53,7 +53,7 @@ public class BeerDBManager {
         contentValues.put(BeerDBHelper.CREATE_DATE, Constant.DATE_FORMAT.format(beer.getCreateDate()));
         contentValues.put(BeerDBHelper.UPDATE_DATE, Constant.DATE_FORMAT.format(beer.getUpdateDate()));
         contentValues.put(BeerDBHelper.GLASS_ID, beer.getGlass().getId());
-        database.insert(BeerDBHelper.TABLE_NAME, null, contentValues);
+        mDatabase.insert(BeerDBHelper.TABLE_NAME, null, contentValues);
     }
 
     public int update(long _id, String id, String name, String description, Float abv, int available_id, int style_id, boolean is_organic, String status, String status_display, Float original_gravity, Date createDate, Date updateDate, int glass_id) {
@@ -73,13 +73,13 @@ public class BeerDBManager {
         contentValues.put(BeerDBHelper.UPDATE_DATE, dateFormat.format(updateDate));
         contentValues.put(BeerDBHelper.GLASS_ID, glass_id);
 
-        int i = database.update(BeerDBHelper.TABLE_NAME, contentValues, BeerDBHelper._ID + "=" + _id, null);
+        int i = mDatabase.update(BeerDBHelper.TABLE_NAME, contentValues, BeerDBHelper._ID + "=" + _id, null);
 
         return i;
     }
 
     public void delete(long _id) {
-        database.delete(BeerDBHelper.TABLE_NAME, BeerDBHelper._ID + "=" + _id, null);
+        mDatabase.delete(BeerDBHelper.TABLE_NAME, BeerDBHelper._ID + "=" + _id, null);
     }
 
     public ArrayList<Beer> getBeers() {
@@ -102,7 +102,7 @@ public class BeerDBManager {
 
         };
 
-        Cursor cursor = database.query(DatabaseHelper.TABLE_BEER, columns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_BEER, columns, null, null, null, null, null);
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {

@@ -30,13 +30,13 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class MainActivity extends ActionBarActivity {
 
-    private SlidingTabsPagerAdapter adapter;
+    private SlidingTabsPagerAdapter mAdapter;
 
     @InjectView(R.id.sliding_tabs) SlidingTabLayout slidingTabLayout;
     @InjectView(R.id.viewPager) ViewPager viewPager;
     @InjectView(R.id.add_button) FloatingActionButton addButton;
 
-    private List<IDaoResponseListener> daoResponseEventListenersList = new ArrayList<>();
+    private List<IDaoResponseListener> mDaoResponseEventListenersList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,182 +47,9 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
 
         // Ajout de l'adapter et de des vues qu'il contient au tabLayout
-        adapter = new SlidingTabsPagerAdapter(getSupportFragmentManager(), this);
-        viewPager.setAdapter(adapter);
+        mAdapter = new SlidingTabsPagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(mAdapter);
         slidingTabLayout.setViewPager(viewPager);
-
-/*        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://robin.grabarski.fr/libeery/web/app_dev.php/api/")
-                .setConverter(new GsonConverter(gson))
-                .build();
-
-        LibeeryRestService service = restAdapter.create(LibeeryRestService.class);*/
-//
-//        service.getCountBeer(new Callback<String>() {
-//            @Override
-//            public void success(String countBeer, Response response) {
-//                System.out.println(countBeer);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        service.getBeerById(2, new Callback<Beer>() {
-//            @Override
-//            public void success(Beer beer, Response response) {
-//                System.out.println(beer);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        service.getRandomBeer(new Callback<Beer>() {
-//            @Override
-//            public void success(Beer beer, Response response) {
-//                System.out.println(beer);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-
-//        service.getBeersByName("leffe", new Callback<List<Beer>>() {
-//            @Override
-//            public void success(List<Beer> beers, Response response) {
-//                for (Iterator<Beer> beerIterator = beers.iterator(); beerIterator.hasNext(); ) {
-//                    Beer beer = beerIterator.next();
-//                    System.out.println(beer);
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        service.getBeersByStyle(42, new Callback<List<Beer>>() {
-//            @Override
-//            public void success(List<Beer> beers, Response response) {
-//                for (Iterator<Beer> beerIterator = beers.iterator(); beerIterator.hasNext(); ) {
-//                    Beer beer = beerIterator.next();
-//                    System.out.println(beer);
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-
-//        service.getStyles(new Callback<List<Style>>() {
-//            @Override
-//            public void success(List<Style> styles, Response response) {
-//                for (Iterator<Style> styleIterator = styles.iterator(); styleIterator.hasNext(); ) {
-//                    Style style = styleIterator.next();
-//                    System.out.println(style);
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        service.getStyleById(2, new Callback<Style>() {
-//            @Override
-//            public void success(Style style, Response response) {
-//                System.out.println(style);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        service.getStyleByCategory(12, new Callback<List<Style>>() {
-//            @Override
-//            public void success(List<Style> styles, Response response) {
-//                for (Iterator<Style> styleIterator = styles.iterator(); styleIterator.hasNext(); ) {
-//                    Style style = styleIterator.next();
-//                    System.out.println(style);
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        service.getCategories(new Callback<List<Category>>() {
-//            @Override
-//            public void success(List<Category> categories, Response response) {
-//                for (Iterator<Category> categoryIterator = categories.iterator(); categoryIterator.hasNext(); ) {
-//                    Category category = categoryIterator.next();
-//                    System.out.println(category);
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.getUrl());
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        service.getCategoryById(2, new Callback<Category>() {
-//            @Override
-//            public void success(Category category, Response response) {
-//                System.out.println(category);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        service.getGlassware(new Callback<List<Glass>>() {
-//            @Override
-//            public void success(List<Glass> glassware, Response response) {
-//                for (Iterator<Glass> glassIterator = glassware.iterator(); glassIterator.hasNext(); ) {
-//                    Glass glass = glassIterator.next();
-//                    System.out.println(glass);
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
-//
-//        service.getGlassById(2, new Callback<Glass>() {
-//            @Override
-//            public void success(Glass glass, Response response) {
-//                System.out.println(glass);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//                System.out.println(error.toString());
-//            }
-//        });
 
     }
 
@@ -277,8 +104,8 @@ public class MainActivity extends ActionBarActivity {
      * @param listener
      */
     public void addDaoResponseEventListener(IDaoResponseListener listener) {
-        if(!daoResponseEventListenersList.contains(listener)){
-            daoResponseEventListenersList.add(listener);
+        if(!mDaoResponseEventListenersList.contains(listener)){
+            mDaoResponseEventListenersList.add(listener);
         }
     }
 
@@ -289,7 +116,7 @@ public class MainActivity extends ActionBarActivity {
      */
     private synchronized void fireSourceChanged(FavoriteBeer fb) {
         DatasetChangedEvent event = new DatasetChangedEvent( this, fb);
-        Iterator listeners = daoResponseEventListenersList.iterator();
+        Iterator listeners = mDaoResponseEventListenersList.iterator();
         while( listeners.hasNext() ) {
             ( (DatasetChangedListener) listeners.next() ).onDatasetChanged(event);
         }

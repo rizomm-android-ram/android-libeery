@@ -28,26 +28,26 @@ import retrofit.converter.GsonConverter;
  */
 public class WsBeerDAOImpl implements IBeersDAO {
 
-    private Gson gson = new GsonBuilder()
+    private Gson mGson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
-    private RestAdapter restAdapter = new RestAdapter.Builder()
+    private RestAdapter mRestAdapter = new RestAdapter.Builder()
             .setEndpoint("http://robin.grabarski.fr/libeery/web/app_dev.php/api/")
-            .setConverter(new GsonConverter(gson))
+            .setConverter(new GsonConverter(mGson))
             .build();
 
-    private LibeeryRestService service = restAdapter.create(LibeeryRestService.class);
+    private LibeeryRestService mService = mRestAdapter.create(LibeeryRestService.class);
 
-    private List<Beer> listBeersByStyle = null;
-    private List<Beer> listBeersByName = null;
-    private Beer randomBeer = null;
+    private List<Beer> mListBeersByStyle = null;
+    private List<Beer> mListBeersByName = null;
+    private Beer mRandomBeer = null;
 
-    private List<IDaoResponseListener> daoResponseEventListenersList = new ArrayList<>();
+    private List<IDaoResponseListener> mDaoResponseEventListenersList = new ArrayList<>();
 
     @Override
     public synchronized void addDaoResponseEventListener(IDaoResponseListener listener){
-        if(!daoResponseEventListenersList.contains(listener)){
-            daoResponseEventListenersList.add(listener);
+        if(!mDaoResponseEventListenersList.contains(listener)){
+            mDaoResponseEventListenersList.add(listener);
         }
     }
 
@@ -116,69 +116,58 @@ public class WsBeerDAOImpl implements IBeersDAO {
 
     @Override
     public List<Beer> getBeersByName(String name) {
-//        Glass g = new Glass();
-//        g.setName("Verre à bière");
-//        Category c = new Category();
-//        c.setName("Categorie 1");
-//        Style s = new Style();
-//        s.setCategory(c);
-//        s.setName("Style 1");
-//        Labels l = new Labels();
-//        l.setIcon("http://www.saveur-biere-entreprise.com/fournisseur-produit-4365-p-biere-verre-perdu-mort-subite-framboise.php");
-//        Beer b = new Beer().builder().abv((new Float(12.5))).name("Mort subite").glass(g).style(s).build();
-//        return b;
 
-        service.getBeersByName(name, new Callback<List<Beer>>() {
+        mService.getBeersByName(name, new Callback<List<Beer>>() {
             @Override
             public void success(List<Beer> beers, Response response) {
-                listBeersByName = beers;
-                fireListBeerResponse(listBeersByName);
+                mListBeersByName = beers;
+                fireListBeerResponse(mListBeersByName);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                listBeersByName = null;
+                mListBeersByName = null;
                 System.out.println(error.toString());
             }
         });
-        return listBeersByName;
+        return mListBeersByName;
     }
 
     @Override
     public Beer getRandomBeer() {
-        service.getRandomBeer(new Callback<Beer>() {
+        mService.getRandomBeer(new Callback<Beer>() {
             @Override
             public void success(Beer beer, Response response) {
-                randomBeer = beer;
-                fireBeerResponse(randomBeer);
+                mRandomBeer = beer;
+                fireBeerResponse(mRandomBeer);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                randomBeer = null;
+                mRandomBeer = null;
                 System.out.println(error.toString());
             }
         });
 
-        return randomBeer;
+        return mRandomBeer;
     }
 
     @Override
     public List<Beer> getBeersByStyle(Style style){
-        service.getBeersByStyle(style.getId(), new Callback<List<Beer>>() {
+        mService.getBeersByStyle(style.getId(), new Callback<List<Beer>>() {
             @Override
             public void success(List<Beer> beers, Response response) {
-                listBeersByStyle = beers;
+                mListBeersByStyle = beers;
                 fireListBeerResponse(beers);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                listBeersByStyle = null;
+                mListBeersByStyle = null;
                 System.out.println(error.toString());
             }
         });
-        return listBeersByStyle;
+        return mListBeersByStyle;
     }
 
     /**
@@ -187,7 +176,7 @@ public class WsBeerDAOImpl implements IBeersDAO {
      */
     private synchronized void fireBeerResponse(Beer b) {
         DAOBeerResponseEvent event = new DAOBeerResponseEvent( this, b);
-        Iterator listeners = daoResponseEventListenersList.iterator();
+        Iterator listeners = mDaoResponseEventListenersList.iterator();
         while( listeners.hasNext() ) {
             ( (BeerResponseListener) listeners.next() ).onBeerResponse(event);
         }
@@ -199,7 +188,7 @@ public class WsBeerDAOImpl implements IBeersDAO {
      */
     private synchronized void fireListBeerResponse(List<Beer> list) {
         DAOBeerResponseEvent event = new DAOBeerResponseEvent( this, list);
-        Iterator listeners = daoResponseEventListenersList.iterator();
+        Iterator listeners = mDaoResponseEventListenersList.iterator();
         while( listeners.hasNext() ) {
             ( (BeerResponseListener) listeners.next() ).onBeerResponse( event );
         }

@@ -20,25 +20,25 @@ import java.util.List;
  */
 public class ListFavoriteBeersAdapter extends BaseAdapter {
 
-    private Context context;
-    private List<FavoriteBeer> dataSource;
-    private ViewHolder viewHolder;
-    private View cellView;
-    private Beer beer;
+    private Context mContext;
+    private List<FavoriteBeer> mDataSource;
+    private ViewHolder mViewHolder;
+    private View mCellView;
+    private Beer mBeer;
 
     public ListFavoriteBeersAdapter(Context context, List<FavoriteBeer> beerList){
-        this.context = context;
-        this.dataSource = beerList;
+        this.mContext = context;
+        this.mDataSource = beerList;
     }
 
     @Override
     public int getCount() {
-        return dataSource.size();
+        return mDataSource.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return dataSource.get(i);
+        return mDataSource.get(i);
     }
 
     @Override
@@ -48,28 +48,24 @@ public class ListFavoriteBeersAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        cellView = view;
-        beer = dataSource.get(i);
+        mCellView = view;
+        mBeer = mDataSource.get(i);
 
-        if(cellView == null){
+        if(mCellView == null){
             // Si on est en mode paysage :
-            if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            if(mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 // On utilise la vue paysage
-                viewHolder = new ListFavoriteBeersViewHolderLandscape(context);
+                mViewHolder = new ListFavoriteBeersViewHolderLandscape(mContext);
             }else{
                 // Si on est en mode portrait, on utilise la vue portrait
-                viewHolder = new ListFavoriteBeersViewHolder(context);
+                mViewHolder = new ListFavoriteBeersViewHolder(mContext);
             }
-            cellView = viewHolder.getView();
-            cellView.setTag(viewHolder);
+            mCellView = mViewHolder.getView();
+            mCellView.setTag(mViewHolder);
         }
-//        if(cellView == null){
-//            listFavoriteBeersViewHolder = new ListFavoriteBeersViewHolder(context);
-//            cellView = listFavoriteBeersViewHolder.getView();
-//            cellView.setTag(listFavoriteBeersViewHolder);
-//        }
-        viewHolder = (ViewHolder) cellView.getTag();
-        viewHolder.updateView(beer);
-        return cellView;
+
+        mViewHolder = (ViewHolder) mCellView.getTag();
+        mViewHolder.updateView(mBeer);
+        return mCellView;
     }
 }

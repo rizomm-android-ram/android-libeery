@@ -17,20 +17,20 @@ import butterknife.InjectView;
  */
 public class ListAllBeersViewHolder implements ViewHolder {
 
-    private Context context;
-    private View view;
+    private Context mContext;
+    private View mView;
 
     @InjectView(R.id.listAllBeers_BeerName) TextView beerName;
     @InjectView(R.id.listAllBeers_BeerStyle) TextView beerStyle;
 
     public ListAllBeersViewHolder(Context context) {
-        this.context = context;
+        this.mContext = context;
         createView();
     }
 
     private void createView() {
-        view = LayoutInflater.from(context).inflate(R.layout.list_all_beers, null);
-        ButterKnife.inject(this, view);
+        mView = LayoutInflater.from(mContext).inflate(R.layout.list_all_beers, null);
+        ButterKnife.inject(this, mView);
     }
 
     public void updateView(Beer beer){
@@ -39,7 +39,7 @@ public class ListAllBeersViewHolder implements ViewHolder {
     }
 
     public View getView(){
-        return view;
+        return mView;
     }
 
 }

@@ -24,29 +24,29 @@ import retrofit.converter.GsonConverter;
  */
 public class WsStyleDAOImpl implements IStyleDAO {
 
-    private Gson gson = new GsonBuilder()
+    private Gson mGson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
-    private RestAdapter restAdapter = new RestAdapter.Builder()
+    private RestAdapter mRestAdapter = new RestAdapter.Builder()
             .setEndpoint("http://robin.grabarski.fr/libeery/web/app_dev.php/api/")
-            .setConverter(new GsonConverter(gson))
+            .setConverter(new GsonConverter(mGson))
             .build();
 
-    private LibeeryRestService service = restAdapter.create(LibeeryRestService.class);
+    private LibeeryRestService mService = mRestAdapter.create(LibeeryRestService.class);
 
     List<Style> styleList = null;
-    private List<IDaoResponseListener> daoResponseEventListenersList = new ArrayList<>();
+    private List<IDaoResponseListener> mDaoResponseEventListenersList = new ArrayList<>();
 
     @Override
     public synchronized void addDaoResponseEventListener(IDaoResponseListener listener){
-        if(!daoResponseEventListenersList.contains(listener)){
-            daoResponseEventListenersList.add(listener);
+        if(!mDaoResponseEventListenersList.contains(listener)){
+            mDaoResponseEventListenersList.add(listener);
         }
     }
 
     @Override
     public List<Style> getStyleByCategory(int categoryId) {
-        service.getStyleByCategory(categoryId, new Callback<List<Style>>() {
+        mService.getStyleByCategory(categoryId, new Callback<List<Style>>() {
             @Override
             public void success(List<Style> styles, Response response) {
                 fireStyleResponse(styles);
@@ -67,7 +67,7 @@ public class WsStyleDAOImpl implements IStyleDAO {
      */
     private synchronized void fireStyleResponse(List<Style> list) {
         DAOStyleResponseEvent event = new DAOStyleResponseEvent( this, list);
-        Iterator listeners = daoResponseEventListenersList.iterator();
+        Iterator listeners = mDaoResponseEventListenersList.iterator();
         while( listeners.hasNext() ) {
             ( (StyleResponseListener) listeners.next() ).onStyleResponse(event);
         }

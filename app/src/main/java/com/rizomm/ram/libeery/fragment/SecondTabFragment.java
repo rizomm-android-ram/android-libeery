@@ -38,13 +38,16 @@ import lombok.Setter;
  */
 public class SecondTabFragment extends Fragment implements DatasetChangedListener{
 
-    private ListFavoriteBeersAdapter listFavoriteBeersAdapter;
-    private List<FavoriteBeer> listFavoriteBeers;
-    private DAOFactory daoFactory = new DAOFactory();
-    @Setter
-    private MainActivity parent;
+    private ListFavoriteBeersAdapter mListFavoriteBeersAdapter;
+    private List<FavoriteBeer> mListFavoriteBeers;
+    private DAOFactory mDaoFactory = new DAOFactory();
+    private MainActivity mParent;
 
     @InjectView(R.id.listFavoriteBeers) AbsListView listViewFavoriteBeers;
+
+    public void setParent(MainActivity mParent) {
+        this.mParent = mParent;
+    }
 
     @Nullable
     @Override
@@ -57,11 +60,11 @@ public class SecondTabFragment extends Fragment implements DatasetChangedListene
         // Récupération de la liste des bières :
         getFavoriteBeerList();
 
-        listFavoriteBeersAdapter = new ListFavoriteBeersAdapter(getActivity(), listFavoriteBeers);
-        listViewFavoriteBeers.setAdapter(listFavoriteBeersAdapter);
+        mListFavoriteBeersAdapter = new ListFavoriteBeersAdapter(getActivity(), mListFavoriteBeers);
+        listViewFavoriteBeers.setAdapter(mListFavoriteBeersAdapter);
 
-        if(parent != null){
-            parent.addDaoResponseEventListener(this);
+        if(mParent != null){
+            mParent.addDaoResponseEventListener(this);
         }
 
         return rootView;
@@ -100,10 +103,10 @@ public class SecondTabFragment extends Fragment implements DatasetChangedListene
                 dao.deleteBeer(beerToDelete);
 
                 // Suppression de la bière de la liste :
-                listFavoriteBeers.remove(position);
+                mListFavoriteBeers.remove(position);
 
                 // On notifie l'adapter que la source de données a changé.
-                listFavoriteBeersAdapter.notifyDataSetChanged();
+                mListFavoriteBeersAdapter.notifyDataSetChanged();
             }
         });
         builder.setNegativeButton(R.string.button_delete_beer_ko, new DialogInterface.OnClickListener() {
@@ -121,23 +124,23 @@ public class SecondTabFragment extends Fragment implements DatasetChangedListene
      * Récupère la liste des bières favorites.
      */
      private void getFavoriteBeerList(){
-         IFavoriteBeersDAO dao = daoFactory.getFavoriteBeersDao();
+         IFavoriteBeersDAO dao = mDaoFactory.getFavoriteBeersDao();
          if(dao instanceof LocalDBBeerDAOImpl){
              ((LocalDBBeerDAOImpl)dao).setContext(getActivity());
          }
-        if(listFavoriteBeers == null){
-            listFavoriteBeers = new ArrayList<>();
+        if(mListFavoriteBeers == null){
+            mListFavoriteBeers = new ArrayList<>();
         }
-         listFavoriteBeers.clear();
-         listFavoriteBeers.addAll(dao.getFavoriteBeers());
+         mListFavoriteBeers.clear();
+         mListFavoriteBeers.addAll(dao.getFavoriteBeers());
     }
 
     @Override
     public void onDatasetChanged(DatasetChangedEvent event) {
         if(event.getFavoriteBeerAdded() != null){
-            listFavoriteBeers.add(event.getFavoriteBeerAdded());
+            mListFavoriteBeers.add(event.getFavoriteBeerAdded());
         }
-        listFavoriteBeersAdapter.notifyDataSetChanged();
+        mListFavoriteBeersAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -145,6 +148,6 @@ public class SecondTabFragment extends Fragment implements DatasetChangedListene
         super.onResume();
         /* A la reprise de l'application, on recharge la liste des bières favorites. */
         getFavoriteBeerList();
-        listFavoriteBeersAdapter.notifyDataSetChanged();
+        mListFavoriteBeersAdapter.notifyDataSetChanged();
     }
 }

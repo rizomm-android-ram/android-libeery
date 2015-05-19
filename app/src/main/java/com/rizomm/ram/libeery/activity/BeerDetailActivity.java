@@ -43,7 +43,7 @@ public class BeerDetailActivity extends ActionBarActivity {
     @InjectView(R.id.detailView_beerDescription) TextView mBeerDescription;
     @InjectView(R.id.detailView_addFavoriteButton) FloatingActionButton mAddFavoriteButton;
 
-    private Beer currentBeer = null;
+    private Beer mCurrentBeer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +53,8 @@ public class BeerDetailActivity extends ActionBarActivity {
         // Récupération des éléments graphiques :
         ButterKnife.inject(this);
 
-        currentBeer = (Beer)getIntent().getSerializableExtra(Constant.INTENT_DETAIL_DATA_1);
-        updateViewContent(currentBeer);
+        mCurrentBeer = (Beer)getIntent().getSerializableExtra(Constant.INTENT_DETAIL_DATA_1);
+        updateViewContent(mCurrentBeer);
 
         // Récupération des ID des bières favorites :
         DAOFactory factory = new DAOFactory();
@@ -65,7 +65,7 @@ public class BeerDetailActivity extends ActionBarActivity {
         List<String> idList = dao.getFavoriteBeersIds();
 
         /* Si la bière a afficher n'est pas déjà une bière favorite, on affiche le bouton d'ajout aux favoris : */
-        if(!(currentBeer instanceof FavoriteBeer) && !idList.contains(String.valueOf(currentBeer.getId()))){
+        if(!(mCurrentBeer instanceof FavoriteBeer) && !idList.contains(String.valueOf(mCurrentBeer.getId()))){
             mAddFavoriteButton.setVisibility(View.VISIBLE);
         }
     }
@@ -76,7 +76,7 @@ public class BeerDetailActivity extends ActionBarActivity {
     @OnClick(R.id.detailView_addFavoriteButton)
     public void onAddFavoriteButtonClick(){
         FavoriteBeer fb = new FavoriteBeer();
-        fb = fb.beerToFavoriteBeer(currentBeer, FavoriteBeersLocalDBHelper.IMAGE_TYPE.REMOTE_SRC.getValue());
+        fb = fb.beerToFavoriteBeer(mCurrentBeer, FavoriteBeersLocalDBHelper.IMAGE_TYPE.REMOTE_SRC.getValue());
         addToFavorite(fb);
         Crouton.makeText(this, R.string.addedFavoriteBeerMessageOK, Style.CONFIRM).show();
     }

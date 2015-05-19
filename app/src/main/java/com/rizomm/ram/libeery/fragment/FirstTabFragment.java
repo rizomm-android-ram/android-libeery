@@ -47,12 +47,12 @@ import butterknife.OnItemSelected;
  */
 public class FirstTabFragment extends Fragment implements CategoryResponseListener, StyleResponseListener, BeerResponseListener {
 
-    private ListAllBeersAdapter listAllBeersAdapter;
-    private List<Beer> allBeersList ;
-    private List<Category> categoryList;
-    private List<Style> styleList;
-    private DAOFactory daoFactory = new DAOFactory();
-    private IBeersDAO dao ;
+    private ListAllBeersAdapter mListAllBeersAdapter;
+    private List<Beer> mAllBeersList ;
+    private List<Category> mCategoryList;
+    private List<Style> mStyleList;
+    private DAOFactory mDaoFactory = new DAOFactory();
+    private IBeersDAO mDao ;
 
     @InjectView(R.id.listAllBeers) AbsListView listAllBeers;
     @InjectView(R.id.firstTab_beerCategory) Spinner mBeerCategory;
@@ -71,12 +71,12 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
         ButterKnife.inject(this, rootView);
 
         // Ajout d'un listener au DAO gérant les bières :
-        dao = daoFactory.getBeerDao();
-        dao.addDaoResponseEventListener(this);
+        mDao = mDaoFactory.getBeerDao();
+        mDao.addDaoResponseEventListener(this);
 
-        allBeersList = new ArrayList<>();
-        listAllBeersAdapter = new ListAllBeersAdapter(getActivity(), allBeersList);
-        listAllBeers.setAdapter(listAllBeersAdapter);
+        mAllBeersList = new ArrayList<>();
+        mListAllBeersAdapter = new ListAllBeersAdapter(getActivity(), mAllBeersList);
+        listAllBeers.setAdapter(mListAllBeersAdapter);
 
         // Récupération de la liste des catégories :
         getCategoryList();
@@ -121,9 +121,9 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
      */
     private void getCategoryList(){
         DAOFactory factory = new DAOFactory();
-        ICategoryDAO dao = factory.getCategoryDao();
-        dao.addDaoResponseEventListener(this);
-        dao.getAllCategories();
+        ICategoryDAO mDao = factory.getCategoryDao();
+        mDao.addDaoResponseEventListener(this);
+        mDao.getAllCategories();
     }
 
     /**
@@ -142,7 +142,7 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
      */
     @OnItemSelected(R.id.firstTab_beerCategory)
     public void onCategoryChange(int position){
-        Category c = categoryList.get(position);
+        Category c = mCategoryList.get(position);
         getStyleList(c.getId());
     }
 
@@ -152,17 +152,17 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
      */
     private void getStyleList(int id){
         DAOFactory factory = new DAOFactory();
-        IStyleDAO dao = factory.getStyleDAO();
-        dao.addDaoResponseEventListener(this);
-        dao.getStyleByCategory(id);
+        IStyleDAO mDao = factory.getStyleDAO();
+        mDao.addDaoResponseEventListener(this);
+        mDao.getStyleByCategory(id);
     }
 
     /**
      * Rempli la liste déruolante des styles.
      */
-    private void populateStyleSinner(List<String> styleList){
-        String[] spinnerArray = new String[styleList.size()];
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, styleList.toArray(spinnerArray));
+    private void populateStyleSinner(List<String> mStyleList){
+        String[] spinnerArray = new String[mStyleList.size()];
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mStyleList.toArray(spinnerArray));
         mBeerStyle.setAdapter(adapter);
     }
 
@@ -174,7 +174,7 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
     public void onStyleChange(int position){
         mSearchArea.setVisibility(View.GONE);
         mShowSearchAreaButton.setVisibility(View.VISIBLE);
-        Style s = styleList.get(position);
+        Style s = mStyleList.get(position);
         getAllBeerByStyleList(s);
     }
 
@@ -183,10 +183,10 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
      * @param style
      */
     private void getAllBeerByStyleList(Style style){
-        if(allBeersList == null){
-            allBeersList = new ArrayList<>();
+        if(mAllBeersList == null){
+            mAllBeersList = new ArrayList<>();
         }
-        allBeersList = dao.getBeersByStyle(style);
+        mAllBeersList = mDao.getBeersByStyle(style);
     }
 
     /**
@@ -194,15 +194,15 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
      * @param name
      */
     private void getAllBeerByNameList(String name){
-        if(allBeersList == null){
-            allBeersList = new ArrayList<>();
+        if(mAllBeersList == null){
+            mAllBeersList = new ArrayList<>();
         }
-        allBeersList = dao.getBeersByName(name);
+        mAllBeersList = mDao.getBeersByName(name);
     }
 
     @Override
     public void onCategoryResponse(DAOCategoryResponseEvent event) {
-        categoryList = event.getCategoryList();
+        mCategoryList = event.getCategoryList();
         List<String> list = new ArrayList<>();
         for(Category c : event.getCategoryList()){
             if(c.getName() != null && !c.getName().isEmpty()){
@@ -214,7 +214,7 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
 
     @Override
     public void onStyleResponse(DAOStyleResponseEvent event) {
-        styleList = event.getStyleList();
+        mStyleList = event.getStyleList();
         List<String> list = new ArrayList<>();
         for(Style s : event.getStyleList()){
             if(s.getName() != null && !s.getName().isEmpty()){
@@ -226,21 +226,21 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
 
     @Override
     public void onBeerResponse(DAOBeerResponseEvent event) {
-        if(allBeersList == null){
-            allBeersList = new ArrayList<>();
+        if(mAllBeersList == null){
+            mAllBeersList = new ArrayList<>();
         }
 
-        allBeersList.clear();
+        mAllBeersList.clear();
         for(Beer b : event.getBeerList()){
-            allBeersList.add(b);
+            mAllBeersList.add(b);
         }
 
         // On reconstruit l'adapter :
-        listAllBeersAdapter = new ListAllBeersAdapter(getActivity(), allBeersList);
-        listAllBeers.setAdapter(listAllBeersAdapter);
+        mListAllBeersAdapter = new ListAllBeersAdapter(getActivity(), mAllBeersList);
+        listAllBeers.setAdapter(mListAllBeersAdapter);
 
         // on informe l'adaper que la source de données à changée :
-        listAllBeersAdapter.notifyDataSetChanged();
+        mListAllBeersAdapter.notifyDataSetChanged();
 
     }
 }

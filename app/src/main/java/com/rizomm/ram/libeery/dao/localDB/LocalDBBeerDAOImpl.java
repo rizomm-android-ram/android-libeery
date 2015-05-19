@@ -15,24 +15,24 @@ import java.util.List;
  */
 public class LocalDBBeerDAOImpl implements IFavoriteBeersDAO {
 
-    private Context context;
-    private List<IDaoResponseListener> daoResponseEventListenersList = new ArrayList<>();
+    private Context mContext;
+    private List<IDaoResponseListener> mDaoResponseEventListenersList = new ArrayList<>();
 
     @Override
     public void addDaoResponseEventListener(IDaoResponseListener listener) {
-        if(!daoResponseEventListenersList.contains(listener)){
-            daoResponseEventListenersList.add(listener);
+        if(!mDaoResponseEventListenersList.contains(listener)){
+            mDaoResponseEventListenersList.add(listener);
         }
     }
 
     public void setContext(Context context){
-        this.context = context;
+        this.mContext = context;
     }
 
     @Override
     public List<FavoriteBeer> getFavoriteBeers() {
         List<FavoriteBeer> allBeersList ;
-        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(context);
+        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(mContext);
         manager.open();
         allBeersList = manager.getAllfavoriteBeers();
         manager.close();
@@ -41,7 +41,7 @@ public class LocalDBBeerDAOImpl implements IFavoriteBeersDAO {
 
     @Override
     public void deleteBeer(FavoriteBeer beerToDelete) {
-        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(context);
+        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(mContext);
         manager.open();
         manager.delete(beerToDelete);
         manager.close();
@@ -49,7 +49,7 @@ public class LocalDBBeerDAOImpl implements IFavoriteBeersDAO {
 
     @Override
     public void addBeerToFavorite(FavoriteBeer beerToAdd) {
-        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(context);
+        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(mContext);
         manager.open();
         manager.insert(beerToAdd, beerToAdd.getSrcType());
         manager.close();
@@ -58,7 +58,7 @@ public class LocalDBBeerDAOImpl implements IFavoriteBeersDAO {
     @Override
     public List<String> getFavoriteBeersIds() {
         List<String> idList ;
-        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(context);
+        FavoriteBeersLocalDBManager manager = new FavoriteBeersLocalDBManager(mContext);
         manager.open();
         idList = manager.getFavoriteBeersIds();
         manager.close();

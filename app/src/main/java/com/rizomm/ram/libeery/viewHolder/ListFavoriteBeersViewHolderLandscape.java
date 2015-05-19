@@ -19,20 +19,20 @@ import butterknife.InjectView;
  */
 public class ListFavoriteBeersViewHolderLandscape implements ViewHolder {
 
-    private Context context;
-    private View view;
+    private Context mContext;
+    private View mView;
 
     @InjectView(R.id.listFavoriteBeers_BeerName) TextView beerName;
     @InjectView(R.id.listFavoriteBeers_BeerIcon) ImageView beerIcon;
 
     public ListFavoriteBeersViewHolderLandscape(Context context) {
-        this.context = context;
+        this.mContext = context;
         createView();
     }
 
     private void createView() {
-        view = LayoutInflater.from(context).inflate(R.layout.list_favorite_beers_landscape, null);
-        ButterKnife.inject(this, view);
+        mView = LayoutInflater.from(mContext).inflate(R.layout.list_favorite_beers_landscape, null);
+        ButterKnife.inject(this, mView);
     }
 
     public void updateView(Beer beer){
@@ -46,19 +46,16 @@ public class ListFavoriteBeersViewHolderLandscape implements ViewHolder {
         // Si la donnée icone existe :
         String pict = null;
         if(beer.getLabels() != null && beer.getLabels().getIcon() != null && !beer.getLabels().getIcon().isEmpty()){
-            pict = new String();
             pict = beer.getLabels().getIcon();
         }
         if(pict == null && beer.getLabel_icon() != null && !beer.getLabel_icon().isEmpty()) {
-            pict = new String();
             pict = beer.getLabel_icon();
         }
         if(pict == null){
-            pict = new String();
             pict = "vide";
         }
         // Ajout de l'icone de la bière en utilisant Picasso :
-        Picasso.with(context)
+        Picasso.with(mContext)
                 .load(pict)
                 .error(R.drawable.empty_bottle)
                 .placeholder(R.drawable.empty_bottle)
@@ -66,7 +63,7 @@ public class ListFavoriteBeersViewHolderLandscape implements ViewHolder {
     }
 
     public View getView(){
-        return view;
+        return mView;
     }
 
 }

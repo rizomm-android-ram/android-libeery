@@ -15,14 +15,14 @@ import com.rizomm.ram.libeery.fragment.SecondTabFragment;
  */
 public class SlidingTabsPagerAdapter extends FragmentPagerAdapter {
 
-    private FirstTabFragment firstTabFragment;
-    private SecondTabFragment secondTabFragment;
+    private FirstTabFragment mFirstTabFragment;
+    private SecondTabFragment mSecondTabFragment;
 
     public SlidingTabsPagerAdapter(FragmentManager fm, MainActivity parent) {
         super(fm);
-        firstTabFragment = new FirstTabFragment();
-        secondTabFragment = new SecondTabFragment();
-        secondTabFragment.setParent(parent);
+        mFirstTabFragment = new FirstTabFragment();
+        mSecondTabFragment = new SecondTabFragment();
+        mSecondTabFragment.setParent(parent);
     }
 
     @Override
@@ -34,8 +34,8 @@ public class SlidingTabsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         // En fonction de l'item demandé, on retourne le 1er ou le 2nd fragment :
         switch (i){
-            case 0 : return firstTabFragment;
-            case 1 : return secondTabFragment;
+            case 0 : return mFirstTabFragment;
+            case 1 : return mSecondTabFragment;
             default:return null;
         }
     }

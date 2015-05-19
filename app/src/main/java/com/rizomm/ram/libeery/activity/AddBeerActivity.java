@@ -58,8 +58,8 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
     @InjectView(R.id.addView_beerDescription) EditText beerDescription;
     @InjectView(R.id.addView_validateButton) Button validateButton;
 
-    private ImageFile imageFile;
-    private List<Category> categoryList;
+    private ImageFile mImageFile;
+    private List<Category> mCategoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
 
     @OnItemSelected(R.id.addView_beerCategory)
     public void onCategoryChange(int position){
-        Category c = categoryList.get(position);
+        Category c = mCategoryList.get(position);
         getStyleList(c.getId());
     }
 
@@ -128,14 +128,14 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
         PackageManager pm = this.getApplicationContext().getPackageManager();
         if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            imageFile = new ImageFile();
+            mImageFile = new ImageFile();
 
             // Ensure that there's a camera activity to handle the intent
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 // Create the File where the photo should go
                 File photoFile = null;
                 try {
-                    photoFile = imageFile.createImageFile();
+                    photoFile = mImageFile.createImageFile();
                 } catch (IOException ex) {
                     Crouton.makeText(this, R.string.addedBeerMessageKO, de.keyboardsurfer.android.widget.crouton.Style.ALERT).show();
                 }
@@ -158,8 +158,8 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
         if (requestCode == Constant.TAKE_PICTURE_REQUEST && resultCode == RESULT_OK) {
 
             try {
-                String fileName = imageFile.getImage().getAbsolutePath();
-                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),Uri.fromFile(imageFile.getImage()));
+                String fileName = mImageFile.getImage().getAbsolutePath();
+                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),Uri.fromFile(mImageFile.getImage()));
 
                 /* Rotation de l'image */
                 BitmapFactory.Options bounds = new BitmapFactory.Options();
@@ -189,8 +189,8 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
             }
 
             // Ajout de l'image à la galerie Android :
-            if(imageFile != null){
-                imageFile.galleryAddPic(this);
+            if(mImageFile != null){
+                mImageFile.galleryAddPic(this);
             }
         }
     }
@@ -224,8 +224,8 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
             String cat = "";
             String style = "";
 
-            if(imageFile != null && imageFile.getCurrentPhotoPath() != null ){
-                path = imageFile.getImage().getAbsolutePath();
+            if(mImageFile != null && mImageFile.getCurrentPhotoPath() != null ){
+                path = mImageFile.getImage().getAbsolutePath();
             }
             if(beerAlcoholLevel.getText() != null && !beerAlcoholLevel.getText().toString().isEmpty()){
                 alcoholLevel = Float.valueOf(beerAlcoholLevel.getText().toString());
@@ -289,7 +289,7 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
 
     @Override
     public void onCategoryResponse(DAOCategoryResponseEvent event) {
-        categoryList = event.getCategoryList();
+        mCategoryList = event.getCategoryList();
         List<String> list = new ArrayList<>();
         for(Category c : event.getCategoryList()){
             if(c.getName() != null && !c.getName().isEmpty()){

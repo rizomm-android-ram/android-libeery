@@ -24,29 +24,29 @@ import retrofit.converter.GsonConverter;
  */
 public class WsCategoryDAOImpl implements ICategoryDAO {
 
-    private Gson gson = new GsonBuilder()
+    private Gson mGson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
-    private RestAdapter restAdapter = new RestAdapter.Builder()
+    private RestAdapter mRestAdapter = new RestAdapter.Builder()
             .setEndpoint("http://robin.grabarski.fr/libeery/web/app_dev.php/api/")
-            .setConverter(new GsonConverter(gson))
+            .setConverter(new GsonConverter(mGson))
             .build();
 
-    private LibeeryRestService service = restAdapter.create(LibeeryRestService.class);
+    private LibeeryRestService mService = mRestAdapter.create(LibeeryRestService.class);
 
     List<Category> categoryList = null;
-    private List<IDaoResponseListener> daoResponseEventListenersList = new ArrayList<>();
+    private List<IDaoResponseListener> mDaoResponseEventListenersList = new ArrayList<>();
 
     @Override
     public synchronized void addDaoResponseEventListener(IDaoResponseListener listener){
-        if(!daoResponseEventListenersList.contains(listener)){
-            daoResponseEventListenersList.add(listener);
+        if(!mDaoResponseEventListenersList.contains(listener)){
+            mDaoResponseEventListenersList.add(listener);
         }
     }
 
     @Override
     public List<Category> getAllCategories() {
-        service.getCategories(new Callback<List<Category>>() {
+        mService.getCategories(new Callback<List<Category>>() {
             @Override
             public void success(List<Category> categories, Response response) {
                 fireCategoryResponse(categories);
@@ -67,7 +67,7 @@ public class WsCategoryDAOImpl implements ICategoryDAO {
      */
     private synchronized void fireCategoryResponse(List<Category> list) {
         DAOCategoryResponseEvent event = new DAOCategoryResponseEvent( this, list);
-        Iterator listeners = daoResponseEventListenersList.iterator();
+        Iterator listeners = mDaoResponseEventListenersList.iterator();
         while( listeners.hasNext() ) {
             ( (CategoryResponseListener) listeners.next() ).onCategoryResponse( event );
         }

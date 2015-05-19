@@ -15,17 +15,25 @@ import lombok.Getter;
 public class DAOBeerResponseEvent extends EventObject {
 
     @Getter
-    private Beer currentBeer;
+    private Beer mCurrentBeer;
     @Getter
-    private List<Beer> beerList;
+    private List<Beer> mBeerList;
 
     public DAOBeerResponseEvent(Object source, Beer b) {
         super(source);
-        currentBeer = b;
+        mCurrentBeer = b;
     }
 
     public DAOBeerResponseEvent(Object source, List<Beer> list) {
         super(source);
-        beerList = list;
+        mBeerList = list;
+    }
+
+    public Beer getCurrentBeer() {
+        return mCurrentBeer;
+    }
+
+    public List<Beer> getBeerList() {
+        return mBeerList;
     }
 }

@@ -20,12 +20,12 @@ import java.util.List;
  */
 public class FavoriteBeersLocalDBManager {
 
-    private FavoriteBeersLocalDBHelper favoriteBeersLocalDBHelper;
-    private Context context;
-    private SQLiteDatabase database;
+    private FavoriteBeersLocalDBHelper mFavoriteBeersLocalDBHelper;
+    private Context mContext;
+    private SQLiteDatabase mDatabase;
 
     public FavoriteBeersLocalDBManager(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     /**
@@ -34,15 +34,15 @@ public class FavoriteBeersLocalDBManager {
      * @throws SQLException
      */
     public FavoriteBeersLocalDBManager open() throws SQLException {
-        favoriteBeersLocalDBHelper = new FavoriteBeersLocalDBHelper(context);
-        database = favoriteBeersLocalDBHelper.getWritableDatabase();
+        mFavoriteBeersLocalDBHelper = new FavoriteBeersLocalDBHelper(mContext);
+        mDatabase = mFavoriteBeersLocalDBHelper.getWritableDatabase();
         return this;
     }
 
     /**
      * Ferme la connexion à la base de données.
      */
-    public void close() { favoriteBeersLocalDBHelper.close();}
+    public void close() { mFavoriteBeersLocalDBHelper.close();}
 
     /**
      * Insère une nouvelle bière dans les favorites.
@@ -68,7 +68,7 @@ public class FavoriteBeersLocalDBManager {
         contentValues.put(FavoriteBeersLocalDBHelper.COL_MEDIUM_SRC, beer.getLabel_medium());
         contentValues.put(FavoriteBeersLocalDBHelper.COL_LARGE_SRC, beer.getLabel_large());
         contentValues.put(FavoriteBeersLocalDBHelper.COL_IMG_SRC_TYPE, type);
-        database.insert(FavoriteBeersLocalDBHelper.TABLE_FAVORITE, null, contentValues);
+        mDatabase.insert(FavoriteBeersLocalDBHelper.TABLE_FAVORITE, null, contentValues);
     }
 
     /**
@@ -90,7 +90,7 @@ public class FavoriteBeersLocalDBManager {
                 FavoriteBeersLocalDBHelper.COL_LARGE_SRC
         };
 
-        Cursor cursor = database.query(FavoriteBeersLocalDBHelper.TABLE_FAVORITE, columns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(FavoriteBeersLocalDBHelper.TABLE_FAVORITE, columns, null, null, null, null, null);
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -165,7 +165,7 @@ public class FavoriteBeersLocalDBManager {
                 list.add(beerToDelete.getDescription());
             }
             // Ordre de suppression dans la table :
-            database.delete(FavoriteBeersLocalDBHelper.TABLE_FAVORITE, where, list.toArray(array));
+            mDatabase.delete(FavoriteBeersLocalDBHelper.TABLE_FAVORITE, where, list.toArray(array));
         }
     }
 
@@ -176,7 +176,7 @@ public class FavoriteBeersLocalDBManager {
     public List<String> getFavoriteBeersIds(){
         List<String> idList = new ArrayList<>();
         String[] columns = new String[] {FavoriteBeersLocalDBHelper.COL_ID};
-        Cursor cursor = database.query(FavoriteBeersLocalDBHelper.TABLE_FAVORITE,columns, null, null,null,null,null);
+        Cursor cursor = mDatabase.query(FavoriteBeersLocalDBHelper.TABLE_FAVORITE,columns, null, null,null,null,null);
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {

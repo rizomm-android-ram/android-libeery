@@ -10,17 +10,21 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import lombok.Getter;
-
 /**
  * Created by Amaury on 10/05/2015.
  */
 public class ImageFile {
 
-    @Getter
-    private String currentPhotoPath;
-    @Getter
-    private File image;
+    private String mCurrentPhotoPath;
+    private File mImage;
+
+    public String getCurrentPhotoPath() {
+        return mCurrentPhotoPath;
+    }
+
+    public File getImage() {
+        return mImage;
+    }
 
     /**
      * Créé un fichier.
@@ -32,15 +36,15 @@ public class ImageFile {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        image = File.createTempFile(
+        mImage = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = "file:" + image.getAbsolutePath();
-        return image;
+        mCurrentPhotoPath = "file:" + mImage.getAbsolutePath();
+        return mImage;
     }
 
     /**
@@ -49,7 +53,7 @@ public class ImageFile {
      */
     public void galleryAddPic(Activity currentActivity) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(currentPhotoPath);
+        File f = new File(mCurrentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         currentActivity.sendBroadcast(mediaScanIntent);

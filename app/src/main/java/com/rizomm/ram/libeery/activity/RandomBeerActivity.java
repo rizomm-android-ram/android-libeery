@@ -32,7 +32,7 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
     @InjectView(R.id.randomView_beerType) TextView mBeerType;
     @InjectView(R.id.randomView_beerDescription) TextView mBeerDescription;
 
-    private DAOFactory daoFactory = new DAOFactory();
+    private DAOFactory mDaoFactory = new DAOFactory();
     private SensorManager mSensorManager = null;
     private Sensor mAccelerometer = null;
     private float mAccel; // acceleration apart from gravity
@@ -125,7 +125,7 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
      * Appelle le DAO afin de récupérer une bière aléatoire.
      */
     private void getRandomBeer(){
-        IBeersDAO dao = daoFactory.getBeerDao();
+        IBeersDAO dao = mDaoFactory.getBeerDao();
         dao.addDaoResponseEventListener(this);
         dao.getRandomBeer();
     }

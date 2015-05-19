@@ -19,23 +19,23 @@ import java.util.Date;
  */
 public class StyleDBManager {
 
-    private DatabaseHelper databaseHelper;
-    private Context context;
-    private SQLiteDatabase database;
+    private DatabaseHelper mDatabaseHelper;
+    private Context mContext;
+    private SQLiteDatabase mDatabase;
 
     public StyleDBManager(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
 
     public StyleDBManager open()  throws SQLException {
         System.out.println("open database");
-        databaseHelper = new DatabaseHelper(context);
-        database = databaseHelper.getWritableDatabase();
+        mDatabaseHelper = new DatabaseHelper(mContext);
+        mDatabase = mDatabaseHelper.getWritableDatabase();
         return this;
     }
 
     public void close() {
-        databaseHelper.close();
+        mDatabaseHelper.close();
     }
 
     public void insert(int id, int category_id, String name, Date createDate, String shortName, String description, float ibuMin, float ibuMax, float abvMin, float abvMax, float srmMin, float srmMax, float ogMin, float fgMin, float fgMax, Date updateDate){
@@ -59,7 +59,7 @@ public class StyleDBManager {
             contentValues.put(DatabaseHelper.UPDATE_DATE, Constant.DATE_FORMAT.format(updateDate));
         }
 
-        database.insert(DatabaseHelper.TABLE_STYLE, null, contentValues);
+        mDatabase.insert(DatabaseHelper.TABLE_STYLE, null, contentValues);
     }
 
     public int update(long _id, int category_id, String name, Date createDate, String shortName, String description, float ibuMin, float ibuMax, float abvMin, float abvMax, float srmMin, float srmMax, float ogMin, float fgMin, float fgMax, Date updateDate){
@@ -82,13 +82,13 @@ public class StyleDBManager {
             contentValues.put(DatabaseHelper.UPDATE_DATE, Constant.DATE_FORMAT.format(updateDate));
         }
 
-        int i = database.update(DatabaseHelper.TABLE_STYLE, contentValues, DatabaseHelper._ID + "=" + _id, null);
+        int i = mDatabase.update(DatabaseHelper.TABLE_STYLE, contentValues, DatabaseHelper._ID + "=" + _id, null);
 
         return i;
     }
 
     public void delete(long _id) {
-        database.delete(DatabaseHelper.TABLE_STYLE, DatabaseHelper._ID + "=" + _id, null);
+        mDatabase.delete(DatabaseHelper.TABLE_STYLE, DatabaseHelper._ID + "=" + _id, null);
     }
 
     public ArrayList<Style> getStyles() {
@@ -113,7 +113,7 @@ public class StyleDBManager {
                 DatabaseHelper.UPDATE_DATE
         };
 
-        Cursor cursor = database.query(DatabaseHelper.TABLE_STYLE, columns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_STYLE, columns, null, null, null, null, null);
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
