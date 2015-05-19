@@ -8,8 +8,6 @@ import android.widget.BaseAdapter;
 
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.FavoriteBeer;
-import com.rizomm.ram.libeery.viewHolder.ListAllBeersViewHolder;
-import com.rizomm.ram.libeery.viewHolder.ListAllBeersViewHolderLandscape;
 import com.rizomm.ram.libeery.viewHolder.ListFavoriteBeersViewHolder;
 import com.rizomm.ram.libeery.viewHolder.ListFavoriteBeersViewHolderLandscape;
 import com.rizomm.ram.libeery.viewHolder.ViewHolder;

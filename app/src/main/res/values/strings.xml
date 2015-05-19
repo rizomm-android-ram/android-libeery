@@ -6,6 +6,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="addedBeerMessageOK">Bière ajoutée !</string>
     <string name="addedBeerMessageKO">Erreur. Bière non ajoutée.</string>
+    <string name="addedFavoriteBeerMessageOK">Bière ajoutée à vos favorites !</string>
     <string name="labelBeerName">Nom</string>
     <string name="labelBeerType">Type</string>
     <string name="labelBeerAlcoholLevel">Degré</string>

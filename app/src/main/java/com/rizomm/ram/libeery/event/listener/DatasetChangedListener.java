@@ -1,6 +1,5 @@
 package com.rizomm.ram.libeery.event.listener;
 
-import com.rizomm.ram.libeery.event.DAOCategoryResponseEvent;
 import com.rizomm.ram.libeery.event.DatasetChangedEvent;
 
 /**

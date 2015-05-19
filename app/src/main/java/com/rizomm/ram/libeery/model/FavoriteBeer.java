@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Builder;
-import lombok.experimental.ExtensionMethod;
 
 /**
  * Created by Amaury on 15/05/2015.

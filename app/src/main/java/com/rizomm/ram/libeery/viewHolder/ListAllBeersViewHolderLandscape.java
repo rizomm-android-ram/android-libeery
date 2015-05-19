@@ -1,8 +1,6 @@
 package com.rizomm.ram.libeery.viewHolder;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,9 +9,6 @@ import android.widget.TextView;
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.model.Beer;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

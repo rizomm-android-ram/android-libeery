@@ -2,26 +2,19 @@ package com.rizomm.ram.libeery.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.adapter.SlidingTabsPagerAdapter;
 import com.rizomm.ram.libeery.commonViews.SlidingTabLayout;
 import com.rizomm.ram.libeery.event.DatasetChangedEvent;
 import com.rizomm.ram.libeery.event.listener.DatasetChangedListener;
 import com.rizomm.ram.libeery.event.listener.IDaoResponseListener;
-import com.rizomm.ram.libeery.fragment.SecondTabFragment;
 import com.rizomm.ram.libeery.model.FavoriteBeer;
-import com.rizomm.ram.libeery.service.LibeeryRestService;
 import com.rizomm.ram.libeery.utils.Constant;
 
 import java.util.ArrayList;
@@ -31,9 +24,8 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -268,12 +260,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == Constant.ADD_BEER_REQUEST){
             if(resultCode == Constant.RESULT_CODE_OK){
-                Toast.makeText(this, R.string.addedBeerMessageOK, Toast.LENGTH_LONG).show();
+                Crouton.makeText(this, R.string.addedBeerMessageOK, Style.CONFIRM).show();
                 Bundle bundle = data.getExtras();
                 FavoriteBeer fb = (FavoriteBeer)bundle.getSerializable("123456");
                 fireSourceChanged(fb);
             }else{
-                Toast.makeText(this, R.string.addedBeerMessageKO, Toast.LENGTH_LONG).show();
+                Crouton.makeText(this, R.string.addedBeerMessageKO, Style.ALERT).show();
             }
         }else{
             super.onActivityResult(requestCode, resultCode, data);

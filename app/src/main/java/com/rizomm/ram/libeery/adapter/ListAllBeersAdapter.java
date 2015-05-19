@@ -2,11 +2,9 @@ package com.rizomm.ram.libeery.adapter;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.viewHolder.ListAllBeersViewHolder;

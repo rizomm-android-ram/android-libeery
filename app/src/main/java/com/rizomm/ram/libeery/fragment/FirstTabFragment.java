@@ -14,11 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.activity.BeerDetailActivity;
-import com.rizomm.ram.libeery.activity.MainActivity;
 import com.rizomm.ram.libeery.adapter.ListAllBeersAdapter;
 import com.rizomm.ram.libeery.dao.DAOFactory;
 import com.rizomm.ram.libeery.dao.IBeersDAO;

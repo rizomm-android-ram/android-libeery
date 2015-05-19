@@ -33,4 +33,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'com.github.futuresimple:android-floating-action-button:1.9.0'
     compile 'com.squareup.picasso:picasso:2.3.2'
+    compile ('de.keyboardsurfer.android.widget:crouton:1.8.5@aar'){
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
 }

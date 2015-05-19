@@ -8,9 +8,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.dao.DAOFactory;
@@ -27,9 +26,9 @@ import com.rizomm.ram.libeery.dao.IFavoriteBeersDAO;
 import com.rizomm.ram.libeery.dao.IStyleDAO;
 import com.rizomm.ram.libeery.dao.localDB.LocalDBBeerDAOImpl;
 import com.rizomm.ram.libeery.database.helper.FavoriteBeersLocalDBHelper;
-import com.rizomm.ram.libeery.event.listener.CategoryResponseListener;
 import com.rizomm.ram.libeery.event.DAOCategoryResponseEvent;
 import com.rizomm.ram.libeery.event.DAOStyleResponseEvent;
+import com.rizomm.ram.libeery.event.listener.CategoryResponseListener;
 import com.rizomm.ram.libeery.event.listener.StyleResponseListener;
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.Category;
@@ -47,6 +46,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class AddBeerActivity extends ActionBarActivity implements CategoryResponseListener, StyleResponseListener {
 
@@ -137,7 +137,7 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
                 try {
                     photoFile = imageFile.createImageFile();
                 } catch (IOException ex) {
-                    Toast.makeText(this, R.string.addedBeerMessageKO, Toast.LENGTH_SHORT).show();
+                    Crouton.makeText(this, R.string.addedBeerMessageKO, de.keyboardsurfer.android.widget.crouton.Style.ALERT).show();
                 }
 
                 // Continue only if the File was successfully created
@@ -147,7 +147,7 @@ public class AddBeerActivity extends ActionBarActivity implements CategoryRespon
                 }
             }
         }else{
-            Toast.makeText(this, R.string.errorNoCameraAvailable, Toast.LENGTH_SHORT).show();
+            Crouton.makeText(this, R.string.errorNoCameraAvailable, de.keyboardsurfer.android.widget.crouton.Style.ALERT).show();
         }
     }
 

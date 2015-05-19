@@ -1,9 +1,6 @@
 package com.rizomm.ram.libeery.wrapper;
 
-import com.google.gson.annotations.SerializedName;
 import com.rizomm.ram.libeery.model.Beer;
-
-import java.util.List;
 
 /**
  * Created by Robin on 09/04/2015.

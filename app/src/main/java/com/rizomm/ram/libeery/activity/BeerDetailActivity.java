@@ -5,13 +5,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.rizomm.ram.libeery.R;
@@ -31,6 +30,8 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class BeerDetailActivity extends ActionBarActivity {
 
@@ -77,6 +78,7 @@ public class BeerDetailActivity extends ActionBarActivity {
         FavoriteBeer fb = new FavoriteBeer();
         fb = fb.beerToFavoriteBeer(currentBeer, FavoriteBeersLocalDBHelper.IMAGE_TYPE.REMOTE_SRC.getValue());
         addToFavorite(fb);
+        Crouton.makeText(this, R.string.addedFavoriteBeerMessageOK, Style.CONFIRM).show();
     }
 
     /**

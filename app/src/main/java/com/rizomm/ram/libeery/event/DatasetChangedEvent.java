@@ -1,10 +1,8 @@
 package com.rizomm.ram.libeery.event;
 
-import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.FavoriteBeer;
 
 import java.util.EventObject;
-import java.util.List;
 
 import lombok.Data;
 import lombok.Getter;

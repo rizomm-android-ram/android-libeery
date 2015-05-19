@@ -1,6 +1,5 @@
 package com.rizomm.ram.libeery.event;
 
-import com.rizomm.ram.libeery.model.Category;
 import com.rizomm.ram.libeery.model.Style;
 
 import java.util.EventObject;

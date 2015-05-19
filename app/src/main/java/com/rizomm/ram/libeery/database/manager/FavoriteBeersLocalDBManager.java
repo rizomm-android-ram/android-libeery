@@ -6,14 +6,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.rizomm.ram.libeery.database.helper.BeerDBHelper;
-import com.rizomm.ram.libeery.database.helper.DatabaseHelper;
 import com.rizomm.ram.libeery.database.helper.FavoriteBeersLocalDBHelper;
 import com.rizomm.ram.libeery.model.Beer;
 import com.rizomm.ram.libeery.model.Category;
 import com.rizomm.ram.libeery.model.FavoriteBeer;
 import com.rizomm.ram.libeery.model.Style;
-import com.rizomm.ram.libeery.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;

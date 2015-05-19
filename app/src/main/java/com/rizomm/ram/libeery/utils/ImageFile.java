@@ -2,10 +2,8 @@ package com.rizomm.ram.libeery.utils;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import java.io.File;
 import java.io.IOException;

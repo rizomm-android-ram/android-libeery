@@ -4,16 +4,10 @@ import android.content.Context;
 
 import com.rizomm.ram.libeery.dao.IFavoriteBeersDAO;
 import com.rizomm.ram.libeery.database.manager.FavoriteBeersLocalDBManager;
-import com.rizomm.ram.libeery.event.DAOCategoryResponseEvent;
-import com.rizomm.ram.libeery.event.DatasetChangedEvent;
-import com.rizomm.ram.libeery.event.listener.CategoryResponseListener;
-import com.rizomm.ram.libeery.event.listener.DatasetChangedListener;
 import com.rizomm.ram.libeery.event.listener.IDaoResponseListener;
-import com.rizomm.ram.libeery.model.Category;
 import com.rizomm.ram.libeery.model.FavoriteBeer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**

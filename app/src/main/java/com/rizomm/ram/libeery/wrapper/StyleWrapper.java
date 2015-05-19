@@ -1,6 +1,5 @@
 package com.rizomm.ram.libeery.wrapper;
 
-import com.google.gson.annotations.SerializedName;
 import com.rizomm.ram.libeery.model.Style;
 
 
