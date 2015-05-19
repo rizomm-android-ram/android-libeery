@@ -102,7 +102,14 @@ public class BeerDetailActivity extends ActionBarActivity {
     private void updateViewContent(Beer beer){
         if(beer != null){
             // Affichage du degré d'alcool :
-            mBeerAlcoholLevel.setText(String.valueOf(beer.getAbv()));
+            if (beer.getAbv() != 0.0 ) {
+                String degree = String.valueOf(beer.getAbv());
+                degree += "°";
+                mBeerAlcoholLevel.setText(degree);
+            } else {
+                mBeerAlcoholLevel.setText(R.string.non_applicable);
+            }
+
 
             // Affichage du nom de la bière :
             if(beer.getName() != null && !beer.getName().isEmpty()){

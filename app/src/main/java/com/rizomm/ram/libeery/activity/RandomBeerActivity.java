@@ -141,7 +141,13 @@ public class RandomBeerActivity extends ActionBarActivity implements BeerRespons
     private void updateViewContent(Beer randomBeer){
         if(randomBeer != null){
             // Affichage du degré d'alcool :
-            mBeerAlcoholLevel.setText(String.valueOf(randomBeer.getAbv()));
+            if (randomBeer.getAbv() != 0.0 ) {
+                String degree = String.valueOf(randomBeer.getAbv());
+                degree += "°";
+                mBeerAlcoholLevel.setText(degree);
+            } else {
+                mBeerAlcoholLevel.setText(R.string.non_applicable);
+            }
 
             // Affichage du nom de la bière :
             if(randomBeer.getName() != null && !randomBeer.getName().isEmpty()){
