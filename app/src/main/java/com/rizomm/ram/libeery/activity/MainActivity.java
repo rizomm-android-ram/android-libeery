@@ -26,6 +26,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import lombok.Getter;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -34,6 +35,7 @@ public class MainActivity extends ActionBarActivity {
 
     @InjectView(R.id.sliding_tabs) SlidingTabLayout slidingTabLayout;
     @InjectView(R.id.viewPager) ViewPager viewPager;
+    @Getter
     @InjectView(R.id.add_button) FloatingActionButton addButton;
 
     private List<IDaoResponseListener> mDaoResponseEventListenersList = new ArrayList<>();

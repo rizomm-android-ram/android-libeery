@@ -1,6 +1,7 @@
 package com.rizomm.ram.libeery.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,8 +17,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.rizomm.ram.libeery.R;
 import com.rizomm.ram.libeery.activity.BeerDetailActivity;
+import com.rizomm.ram.libeery.activity.MainActivity;
 import com.rizomm.ram.libeery.adapter.ListAllBeersAdapter;
 import com.rizomm.ram.libeery.dao.DAOFactory;
 import com.rizomm.ram.libeery.dao.IBeersDAO;
@@ -39,6 +43,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnFocusChange;
 import butterknife.OnItemClick;
 import butterknife.OnItemSelected;
 
@@ -114,6 +119,26 @@ public class FirstTabFragment extends Fragment implements CategoryResponseListen
         Intent detailIntent = new Intent(getActivity(), BeerDetailActivity.class);
         detailIntent.putExtra(Constant.INTENT_DETAIL_DATA_1, (Beer) listAllBeers.getItemAtPosition(position));
         startActivity(detailIntent);
+    }
+
+    /**
+     * Action lors du changement de focus de l'editText beername
+     * @param focus
+     */
+    @OnFocusChange(R.id.firstTab_beerName)
+    public void onBeerNameFocusChange(boolean focus) {
+        MainActivity activity = (MainActivity) getActivity();
+        FloatingActionButton floatingActionButton = activity.getAddButton();
+        if (floatingActionButton != null) {
+            if (focus) {
+                floatingActionButton.setVisibility(View.GONE);
+            } else {
+                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(mBeerName.getWindowToken(), 0);
+                floatingActionButton.setVisibility(View.VISIBLE);
+            }
+        }
+
     }
 
     /**
