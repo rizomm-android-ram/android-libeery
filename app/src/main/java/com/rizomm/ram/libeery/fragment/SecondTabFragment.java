@@ -31,7 +31,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import butterknife.OnItemLongClick;
-import lombok.Setter;
 
 /**
  * Fragment représentant le second onglet de l'application.
